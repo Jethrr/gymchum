@@ -2,6 +2,8 @@
     include 'connect.php';
 ?>
 
+
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -12,9 +14,9 @@
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
   <body class="flex flex-col min-h-screen">
-    <nav class="p-3 flex items-center justify-between text-black">
+  <nav class="p-3 flex items-center justify-between text-black">
       <div class="logo-div flex items-center ml-10">
-        <img src="images/logo.png" class="w-24" />
+        <img id="img-logo" src="images/logo.png" class="w-24" />
         <h1 class="font-bold text-2xl">GYMCHUM</h1>
       </div>
       <div
@@ -28,11 +30,7 @@
 
     <section class="main-section flex items-center justify-center">
       <div class="bigtext text-center my-9">
-        <h1 class="font-bold text-3xl">WELCOME TO GYMCHUM</h1>
-      </div>
-
-      <div class="vector-art">
-        <img src="./images/fitness-15.png" class="w-1/4">
+        <h1 class="font-bold text-3xl">User Main Page</h1>
       </div>
     </section>
     <footer
@@ -50,8 +48,9 @@
       </div>
     </footer>
 
+
+    <script src="./js/script.js"></script>
     
-    <script src="js/script.js"></script>
     <script
       src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
       integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
