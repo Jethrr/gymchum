@@ -126,3 +126,7 @@ hr {
   background-color: #fff;
   font-size: 20px;
 }
+
+.gradient-text {
+  background: linear-gradient(135deg, #42d392, #647eff);
+}

@@ -28,12 +28,10 @@
 
     <section class="main-section flex items-center justify-center">
       <div class="bigtext text-center my-9">
-        <h1 class="font-bold text-3xl">WELCOME TO GYMCHUM</h1>
+        <h1 class="font-bold text-5xl bg-gradient-to-br from-green-500 to-blue-500 text-transparent bg-clip-text">WELCOME TO GYMCHUM</h1>
       </div>
 
-      <div class="vector-art">
-        <img src="./images/fitness-15.png" class="w-1/4">
-      </div>
+     
     </section>
     <footer
       class="bg-black text-white mt-auto p-3 flex items-center justify-center"
