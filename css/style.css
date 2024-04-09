@@ -130,3 +130,7 @@ hr {
 .gradient-text {
   background: linear-gradient(135deg, #42d392, #647eff);
 }
+
+.userProfile img {
+  width: 200px;
+}

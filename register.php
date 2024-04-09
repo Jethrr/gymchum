@@ -3,6 +3,7 @@ include 'connect.php';
 
 $registerMessage = "";
 
+
 if(isset($_POST['btnRegister'])){      
     $fname = mysqli_real_escape_string($connection, $_POST['txtfirstname']);
     $lname = mysqli_real_escape_string($connection, $_POST['txtlastname']);
@@ -11,7 +12,33 @@ if(isset($_POST['btnRegister'])){
     $uname = mysqli_real_escape_string($connection, $_POST['txtusername']);
     $pword = mysqli_real_escape_string($connection, $_POST['txtpassword']);
     $confirmpword = mysqli_real_escape_string($connection, $_POST['txtconfirmpassword']);
+      
     
+    
+    if($_FILES["image"]["error"] === 4){
+      echo 
+      "<script> alert('Image does not exist);</script>";
+    } else {
+      $fileName = $_FILES["image"]["name"];
+      $fileSize = $_FILES["image"]["size"];
+      $tmpName = $_FILES["image"]["tmp_name"];
+
+      $validImageExtension = ['jpg','jpeg','png'];
+      $imageExtension = explode('.', $fileName);
+      $imageExtension = strtolower(end($imageExtension));
+
+      if(!in_array($imageExtension, $validImageExtension)){
+
+        echo "<script>alert('Invalid image extension');</script>";
+
+      } else if($fileSize > 1000000){
+        echo "<script>alert('Image size is too large');</script>";
+      } else{
+        $newImageName = uniqid();
+        
+      }
+
+    }
 
     $check_query = "SELECT * FROM tbluseraccount WHERE username = '$uname' OR emailadd = '$email'";
     $check_result = mysqli_query($connection, $check_query);
@@ -27,7 +54,7 @@ if(isset($_POST['btnRegister'])){
             $sql1 = "INSERT INTO tbluserprofile(firstname, lastname, gender) VALUES ('$fname', '$lname', '$gender')";
             mysqli_query($connection, $sql1);
      
-            $sql2 ="INSERT INTO tbluseraccount(emailadd, username, password) VALUES ('$email', '$uname', '$pword')";
+            $sql2 ="INSERT INTO tbluseraccount(emailadd, username, password, ) VALUES ('$email', '$uname', '$pword')";
             mysqli_query($connection, $sql2);
             
             $registerMessage = "Registration successful. You can now login.";
@@ -115,7 +142,7 @@ if(isset($_POST['btnRegister'])){
             <h1 class="regText p-1 font-bold text-3xl ">Sign Up</h1>
             <p class="mb-3 ml-1 text-gray-400">Register your account</p>
 
-              <form method="post">
+              <form method="post" enctype="multipart/form-data">
                 <div class="form-floating mb-3">
                   <input
                     type="text"
@@ -179,11 +206,11 @@ if(isset($_POST['btnRegister'])){
 
                 <div class="form-floating mb-3">
                   <input
-                    type="text"
+                    type="password"
                     class="form-control"
-                    id="password"
-                    name="txtconfirmpassword"
-                    placeholder="Confirm password"
+                    id="confirm_password"
+                    name="confirm_password"
+                    placeholder="confirm password"
                     required
                   />
                   <label for="password">Confirm Password</label>
@@ -198,6 +225,21 @@ if(isset($_POST['btnRegister'])){
                                     </select>
                                 </div>
 
+                <div class="form-floating mb-3">
+                  <input
+                    type="file"
+                    class="form-control"
+                    id="image"
+                    name="image"
+                    accept=".jpg, .jpeg,.png"
+                    placeholder="Choose a profile picture"
+                    required
+                  />
+                  <label for="password">Profile Picture</label>
+                </div>
+
+                            
+          
                 <input type="submit" class="btn btn-primary w-100 bg-black" name="btnRegister" value="Register">
                  
             

@@ -41,3 +41,20 @@ document.addEventListener("DOMContentLoaded", function () {
     0.1
   );
 });
+
+function toggleDropdown() {
+  var dropdownMenu = document.getElementById("dropdownMenu");
+  dropdownMenu.classList.toggle("show");
+}
+
+window.onclick = function (event) {
+  if (!event.target.matches(".user-profile")) {
+    var dropdownMenus = document.getElementsByClassName("dropdown-menu");
+    for (var i = 0; i < dropdownMenus.length; i++) {
+      var openDropdownMenu = dropdownMenus[i];
+      if (openDropdownMenu.classList.contains("show")) {
+        openDropdownMenu.classList.remove("show");
+      }
+    }
+  }
+};

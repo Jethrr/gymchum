@@ -1,5 +1,8 @@
 <?php 
     include 'connect.php';
+
+
+    
 ?>
 
 
@@ -10,21 +13,28 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="css/style.css" />
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
   <body class="flex flex-col min-h-screen">
-  <nav class="p-3 flex items-center justify-between text-black">
+  <nav class="p-5 flex items-center justify-between text-black shadow p-3 mb-5 bg-white rounded">
       <div class="logo-div flex items-center ml-10">
-        <img id="img-logo" src="images/logo.png" class="w-24" />
-        <h1 class="font-bold text-2xl">GYMCHUM</h1>
+      
+        <h1 class="font-bold text-2xl ">GYMCHUM</h1>
+
+        
       </div>
       <div
         class="nav-link flex justify-between items-center space-x-4 ml-auto mr-10 font-bold p-2 text-l"
       >
-        <a href="aboutus.php" class="cursor-pointer">About</a>
-        <a href="contactus.php" class="cursor-pointer">Contact</a>
-        <a href="login.php" class="px-3.5 rounded-lg py-2 bg-black text-white ">Login</a>
+        
+      </div>
+
+
+      
+      <div class="userProfile w-10 mr-10">
+
+        <img src="images/profile.png" class="user-profile ">
       </div>
     </nav>
 
