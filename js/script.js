@@ -1,4 +1,6 @@
 const logo = document.getElementById("img-logo");
+const userProfile = document.getElementById("userProf");
+const btnBook = document.getElementById("book-button");
 
 logo.addEventListener("click", () => {
   window.location.href = "index.php";
@@ -47,14 +49,6 @@ function toggleDropdown() {
   dropdownMenu.classList.toggle("show");
 }
 
-window.onclick = function (event) {
-  if (!event.target.matches(".user-profile")) {
-    var dropdownMenus = document.getElementsByClassName("dropdown-menu");
-    for (var i = 0; i < dropdownMenus.length; i++) {
-      var openDropdownMenu = dropdownMenus[i];
-      if (openDropdownMenu.classList.contains("show")) {
-        openDropdownMenu.classList.remove("show");
-      }
-    }
-  }
-};
+// userProfile.addEventListener("click", () => {});
+
+btnBook.addEventListener("click", function openBookForm() {});

@@ -11,34 +11,12 @@ if(isset($_POST['btnRegister'])){
     $email = mysqli_real_escape_string($connection, $_POST['txtemail']);
     $uname = mysqli_real_escape_string($connection, $_POST['txtusername']);
     $pword = mysqli_real_escape_string($connection, $_POST['txtpassword']);
-    $confirmpword = mysqli_real_escape_string($connection, $_POST['txtconfirmpassword']);
+    $confirmpword = mysqli_real_escape_string($connection, $_POST['confirm_password']);
+    $type = mysqli_real_escape_string($connection, $_POST['txtusertype']);
       
     
-    
-    if($_FILES["image"]["error"] === 4){
-      echo 
-      "<script> alert('Image does not exist);</script>";
-    } else {
-      $fileName = $_FILES["image"]["name"];
-      $fileSize = $_FILES["image"]["size"];
-      $tmpName = $_FILES["image"]["tmp_name"];
-
-      $validImageExtension = ['jpg','jpeg','png'];
-      $imageExtension = explode('.', $fileName);
-      $imageExtension = strtolower(end($imageExtension));
-
-      if(!in_array($imageExtension, $validImageExtension)){
-
-        echo "<script>alert('Invalid image extension');</script>";
-
-      } else if($fileSize > 1000000){
-        echo "<script>alert('Image size is too large');</script>";
-      } else{
-        $newImageName = uniqid();
-        
-      }
-
-    }
+ 
+  
 
     $check_query = "SELECT * FROM tbluseraccount WHERE username = '$uname' OR emailadd = '$email'";
     $check_result = mysqli_query($connection, $check_query);
@@ -50,13 +28,17 @@ if(isset($_POST['btnRegister'])){
             $registerMessage = "Passwords do not match.";
         } else {  
            
-              
-            $sql1 = "INSERT INTO tbluserprofile(firstname, lastname, gender) VALUES ('$fname', '$lname', '$gender')";
+
+          $hash_pword = password_hash($pword, PASSWORD_DEFAULT);
+      
+            $sql1 = "INSERT INTO tbluserprofile(firstname, lastname, gender, usertype) VALUES ('$fname', '$lname', '$gender','$type')";
             mysqli_query($connection, $sql1);
      
-            $sql2 ="INSERT INTO tbluseraccount(emailadd, username, password, ) VALUES ('$email', '$uname', '$pword')";
+            $sql2 ="INSERT INTO tbluseraccount(emailadd, username, password) VALUES ('$email', '$uname', '$hash_pword')";
             mysqli_query($connection, $sql2);
             
+
+            var_dump($hash_pword );
             $registerMessage = "Registration successful. You can now login.";
         }
     }
@@ -70,7 +52,7 @@ if(isset($_POST['btnRegister'])){
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="style.css" />
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -115,7 +97,7 @@ if(isset($_POST['btnRegister'])){
   </head>
   <body>
     <div class="container">
-      <nav class="m-0 p-3 flex items-center justify-between text-black">
+    <nav class="m-0 p-3 flex items-center justify-between text-black">
         <div class="logo-div flex items-center">
           <img
             id="img-logo"
@@ -194,7 +176,7 @@ if(isset($_POST['btnRegister'])){
 
                 <div class="form-floating mb-3">
                   <input
-                    type="text"
+                    type="password"
                     class="form-control"
                     id="password"
                     name="txtpassword"
@@ -223,19 +205,19 @@ if(isset($_POST['btnRegister'])){
                                         <option value="Female">Female</option>
                                         <option value="Others">Other</option>
                                     </select>
-                                </div>
+                </div>
+
+
+              
+                
 
                 <div class="form-floating mb-3">
-                  <input
-                    type="file"
-                    class="form-control"
-                    id="image"
-                    name="image"
-                    accept=".jpg, .jpeg,.png"
-                    placeholder="Choose a profile picture"
-                    required
-                  />
-                  <label for="password">Profile Picture</label>
+                                    <select class="form-select" aria-label="Default select example" id="txtusertype" name="txtusertype">
+                                        <option selected>Account Type</option>
+                                        <option value="Trainer">Trainer</option>
+                                        <option value="User">User</option>
+                                       
+                                    </select>
                 </div>
 
                             

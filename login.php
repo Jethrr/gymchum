@@ -7,45 +7,77 @@ if(isset($_POST['login'])){
     $uname = mysqli_real_escape_string($connection, $_POST['txtusername']);
     $pword = mysqli_real_escape_string($connection, $_POST['txtpassword']);
 
-    $query = "SELECT * FROM tbluseraccount WHERE username = '$uname'";
+    $query = "SELECT u.*, p.* FROM tbluseraccount u 
+    JOIN tbluserprofile p ON u.acctid = p.userId
+    WHERE u.username = '$uname'";
+   
+
+    
     $result = mysqli_query($connection, $query);
+ 
 
     if(mysqli_num_rows($result) > 0){
         $row = mysqli_fetch_assoc($result);
+   
         $dbHashedPassword = $row['password'];
-
-        if($pword == $row['password']) {
-            session_start();
-            $_SESSION['username'] = $uname;
-            $loginMessage = "Login successful.";
-            echo "<script>
-            window.onload = function() {
-              var messageBox = document.querySelector('.message-box');
-              if (messageBox.classList.contains('active')) {
-                  setTimeout(function() {
-                      window.location.href = 'mainpage.php';
-                  }, 2000); 
-              }
-          };
-            </script>";
-        } else if(password_verify($pword, $dbHashedPassword)){
-            session_start();
-            $_SESSION['username'] = $uname;
-            $loginMessage = "Login successful.";
-            echo "<script>
-           
-            window.onload = function() {
-              var messageBox = document.querySelector('.message-box');
-              if (messageBox.classList.contains('active')) {
-                  setTimeout(function() {
-                      window.location.href = 'mainpage.php';
-                  }, 2000); 
-              }
-          };
-            </script>";
+       
+        
+        
+        if(password_verify($pword,$dbHashedPassword)){
+          session_start();
+          $_SESSION['username'] = $uname;
+          session_regenerate_id(true);
+          $loginMessage = "Login successful.";
+          if($row['usertype'] == 'Trainer'){
+          
+            echo '<script>setTimeout(function(){window.location.href="trainer.php";}, 5000);</script>';
         } else {
-            $loginMessage = "Invalid password.";
+            
+            echo '<script>setTimeout(function(){window.location.href="mainpage.php";}, 5000);</script>';
         }
+        
+          exit();
+
+        } else {
+          $loginMessage = "Invalid password.";
+        }
+        // if($pword == $row['password']) {
+        //     session_start();
+        //     $_SESSION['username'] = $uname;
+
+           
+
+        //     $loginMessage = "Login successful.";
+        //     echo "<script>
+        //     window.onload = function() {
+        //       var messageBox = document.querySelector('.message-box');
+        //       if (messageBox.classList.contains('active')) {
+        //           setTimeout(function() {
+        //               window.location.href = 'mainpage.php';
+        //           }, 2000); 
+        //       }
+        //   };
+        //     </script>";
+        // } else if(password_verify($pword, $dbHashedPassword)){
+        //     session_start();
+        //     $_SESSION['username'] = $uname;
+        //     $loginMessage = "Login successful.";
+        //     echo "<script>
+           
+        //     window.onload = function() {
+        //       var messageBox = document.querySelector('.message-box');
+        //       if (messageBox.classList.contains('active')) {
+        //           setTimeout(function() {
+        //               window.location.href = 'mainpage.php';
+        //           }, 2000); 
+        //       }
+        //   };
+        //     </script>";
+        // } else {
+        //     $loginMessage = "Invalid password.";
+
+
+        // }
     } else {
         $loginMessage = "Invalid username or password.";
     }
@@ -60,7 +92,7 @@ if(isset($_POST['login'])){
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="style.css">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link
@@ -114,14 +146,10 @@ if(isset($_POST['login'])){
        
       </nav>
 
-      <div class="message-box <?php echo ($loginMessage != "") ? 'active' : ''; ?>">
-            <span class="close-btn" onclick="this.parentElement.classList.remove('active');">&times;</span>
-            <?php echo $loginMessage; ?>
-        </div>
 
 
       <div class="row justify-content-center align-items-center vh-100">
-        <div class="col-lg-4 col-md-6 col-sm-8">
+      <div class="col-lg-4 col-md-6 col-sm-8  my-5">
           <div class="card shadow rounded-3 border-0">
             <div class="card-body">
             <div class="pLogin p-2 m-0">
@@ -129,6 +157,12 @@ if(isset($_POST['login'])){
              
               <p class="text-center mb-3 text-gray-400">Login to your account</p>
               </div>
+
+              
+      <div class="message-box <?php echo ($loginMessage != "") ? 'active' : ''; ?>">
+            <span class="close-btn" onclick="this.parentElement.classList.remove('active');">&times;</span>
+            <?php echo $loginMessage; ?>
+        </div>
              
               <form method="post">
                 <div class="form-floating mb-3">
@@ -208,6 +242,3 @@ if(isset($_POST['login'])){
     ></script>
   </body>
 </html>
-
-
-

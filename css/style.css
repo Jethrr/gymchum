@@ -134,3 +134,8 @@ hr {
 .userProfile img {
   width: 200px;
 }
+
+.sidebar a:hover:not(.active) {
+  background-color: #555;
+  color: white;
+}
