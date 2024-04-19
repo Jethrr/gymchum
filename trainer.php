@@ -51,7 +51,7 @@
     <main class="flex-1 flex shadow-lg bg-white rounded">
     <div class="sidebar shadow p-3  bg-white pt-5 w-72">
       
-        <a href="appointment.php" class="block p-3  hover:bg-gray-200"><i class="fa-regular fa-calendar-check mr-1"></i>Appointments</a>
+        <a href="trainer.php" class="block p-3  hover:bg-gray-200"><i class="fa-regular fa-calendar-check mr-1"></i>Appointments</a>
         <a href="settings-trainer.php" class="block p-3 "><i class="fa-solid fa-gear mr-1"></i>Settings</a>
     </div>
     <section class="side-main flex-1 bg-gray-100">

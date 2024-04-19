@@ -51,4 +51,3 @@ function toggleDropdown() {
 
 // userProfile.addEventListener("click", () => {});
 
-btnBook.addEventListener("click", function openBookForm() {});
