@@ -89,7 +89,9 @@
                           echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . $row["lastname"] . "</td>";
                           echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . $row["gender"] . "</td>";
                           echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . $row["usertype"] . "</td>";
-                          echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . '<Button class = "bg-black text-white pl-5 pr-5 pt-1 pb-1 rounded-full font-semibold" id = "book-button">Book</Button>' . "</td>";
+                          echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . '<button class="bg-black text-white pl-5 pr-5 pt-1 pb-1 rounded-full font-semibold" onclick="openBookingPage()">Book</button>' . "</td>";
+
+
                           echo "</tr>";
                           
                         }
@@ -126,8 +128,8 @@
       </div>
     </footer>
 
+    <script src="script.js"></script>
 
-    <script src="./js/script.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     
     <script

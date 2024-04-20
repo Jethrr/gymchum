@@ -49,5 +49,7 @@ function toggleDropdown() {
   dropdownMenu.classList.toggle("show");
 }
 
-// userProfile.addEventListener("click", () => {});
-
+function openBookingPage() {
+  // window.location.href = "contactus.php";
+  alert("gello");
+}
