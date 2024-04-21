@@ -49,7 +49,6 @@ function toggleDropdown() {
   dropdownMenu.classList.toggle("show");
 }
 
-function openBookingPage() {
-  // window.location.href = "contactus.php";
-  alert("gello");
+function openBookingsTab(firstname) {
+  window.location.href = "bookings.php?firstname=" + firstname;
 }

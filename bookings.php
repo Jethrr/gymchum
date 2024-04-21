@@ -1,12 +1,32 @@
 <?php 
     include 'connect.php';
- 
 
     $fetch = "SELECT usertype FROM `tbluserprofile`";
     $query = mysqli_query($connection,$fetch);
 
     $fetch1 = "SELECT * FROM `tbluserprofile` WHERE usertype = 'trainer'";
     $query2 = mysqli_query($connection,$fetch1);
+    $firstname = $_GET['firstname'];
+
+    if(isset($_POST['btnBook'])){
+         $firstname = $_GET['firstname'];
+         
+         $txtdate = mysqli_real_escape_string($connection, $_POST['booking-date']); 
+         $txttime = mysqli_real_escape_string($connection, $_POST['booking-time']); 
+         $txtservice = mysqli_real_escape_string($connection, $_POST['coaching-service']); 
+         session_start();
+        $userData = $_SESSION["user"];
+        $accId = $userData["userId"];
+
+         $myquery = "INSERT INTO tblappointments (accId, Coach,dates,timee,services) VALUES ('$accId', '$firstname','$txtdate', ' $txttime', ' $txtservice')"; 
+         $myresult = mysqli_query($connection,$myquery); 
+        
+        
+        echo "<script>alert('Sucess!');</script>";
+
+        }
+
+   
 ?>
 
 
@@ -61,46 +81,40 @@
     </div>
     <section class="side-main flex-1 bg-gray-100 p-10">
         <!-- Your main content goes here -->
-     
-        <h1 class="text-3xl  font-bold mt-10">Available Coaches</h1>
-        <p>Find the right coach for you</p>
+    
+        <p><a href="appointment.php"><span><<</span> Go back</a></p>
 
-        <div class="overflow-auto rounded-lg shadow hidden md:block mt-5 bg-gray-100">
-            <table class="w-full">
-              <thead class="bg-gray-50 border-b-2 border-gray-200">
-              <tr>
-                <th class="w-20 p-3 text-sm font-semibold tracking-wide text-left">Status</th>
-                <th class="w-20 p-3 text-sm font-semibold tracking-wide text-left">Firstname</th>
-                <th class="w-24 p-3 text-sm font-semibold tracking-wide text-left">Lastname</th>
-                <th class="w-24 p-3 text-sm font-semibold tracking-wide text-left">Gender</th>
-                <th class="w-24 p-3 text-sm font-semibold tracking-wide text-left">Position</th>
-                <th class="w-24 p-3 text-sm font-semibold tracking-wide text-left"></th>
-              </tr>
-              </thead>
-              <tbody class="divide-y divide-gray-100">
-              <?php
-                    
-                    if (mysqli_num_rows($query2) > 0) {
-                        
-                        while ($row = mysqli_fetch_assoc($query2)) {
-                          echo "<tr>";
-                          echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>". 'N/A' . "</td>";
-                          echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . $row["firstname"] . "</td>";
-                          echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . $row["lastname"] . "</td>";
-                          echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . $row["gender"] . "</td>";
-                          echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . $row["usertype"] . "</td>";
-                          echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . '<button class="bg-black text-white pl-5 pr-5 pt-1 pb-1 rounded-full font-semibold" onclick="openBookingsTab(\'' . $row["firstname"] . '\')">Book</button>' . "</td>";
+        <div class="bookings-nav h-3/4 my-16 flex justify-center items-center ">
+        <form method="POST" class="bg-white p-5 h-full w-full max-w-2xl rounded-md">
+                <h1 class="text-3xl font-bold mb-5">Book Now</h1>
+                <label class="font-semibold text-xl" for="booking-date">Date</label>
+                <br>
+                <input type="date" id="booking-date" name="booking-date" required class="border border-black w-full p-3"><br><br>
+                
+                <label class="font-semibold text-xl" for="booking-time">Time</label>
+                <br>
+                <select id="booking-time" name="booking-time" required class="border border-black w-full p-3">
+                    <option value="" disabled selected>Select Time</option> 
+                    <option value="9:00AM - 10:00AM">9:00AM - 10:00AM</option>
+                    <option value="10:30AM - 11:30AM">10:30AM - 11:30AM</option>
+                    <option value=" 1:00AM - 2:00AM">1:00AM - 2:00AM</option>
+                </select><br><br>
+                
+                <label class="font-semibold text-xl" for="coaching-service">Coaching Service</label>
+                <br>
+                <select id="coaching-service" name="coaching-service" required class="border border-black w-full p-3">
+                    <option value="" disabled selected>Select Service</option> 
+                    <option value="Coaching">Coaching</option>
+                    <option value="Conditioning">Conditioning</option>
+                    <option value="Fitness Assessments">Fitness Assessments</option>
+                </select><br><br>
+                
+                <button type="submit" class="bg-black text-white p-5" name="btnBook">Confirm Booking</button>
+        </form>
 
-                          echo "</tr>";
-                          
-                        }
-                    } else {
-                        echo "<tr><td colspan='4'>No records found</td></tr>";
-                    }
-                    ?>
-              </tbody>
-            </table>
-       </div>
+        </div>
+
+
 
 
 
@@ -127,7 +141,8 @@
       </div>
     </footer>
 
-    <script src="js/script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/datepicker.min.js"></script>
+    <script src="script.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     

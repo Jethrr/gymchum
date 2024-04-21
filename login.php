@@ -25,7 +25,7 @@ if(isset($_POST['login'])){
         
         if(password_verify($pword,$dbHashedPassword)){
           session_start();
-          $_SESSION['username'] = $uname;
+          $_SESSION['user'] = $row;
           session_regenerate_id(true);
           $loginMessage = "Login successful.";
           if($row['usertype'] == 'Trainer'){
