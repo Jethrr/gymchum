@@ -52,3 +52,22 @@ function toggleDropdown() {
 function openBookingsTab(firstname) {
   window.location.href = "bookings.php?firstname=" + firstname;
 }
+
+function toggleMenu() {
+  var dropdownMenu = document.querySelector(".dropdown-menu");
+  dropdownMenu.classList.toggle("hidden");
+  alert("TEST");
+}
+
+document
+  .getElementById("userDropdownBtn")
+  .addEventListener("click", toggleMenu);
+
+document.addEventListener("DOMContentLoaded", function () {
+  const moreLink = document.querySelector(".more");
+  const popup = document.getElementById("popup");
+
+  moreLink.addEventListener("click", function () {
+    popup.classList.toggle("hidden");
+  });
+});

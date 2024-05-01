@@ -25,7 +25,9 @@ if(isset($_POST['login'])){
         
         if(password_verify($pword,$dbHashedPassword)){
           session_start();
-          $_SESSION['user'] = $row;
+          // $_SESSION['user'] = $row;
+          $_SESSION['user'] = $row['userId'];
+          
           session_regenerate_id(true);
           $loginMessage = "Login successful.";
           if($row['usertype'] == 'Trainer'){
@@ -41,43 +43,7 @@ if(isset($_POST['login'])){
         } else {
           $loginMessage = "Invalid password.";
         }
-        // if($pword == $row['password']) {
-        //     session_start();
-        //     $_SESSION['username'] = $uname;
-
-           
-
-        //     $loginMessage = "Login successful.";
-        //     echo "<script>
-        //     window.onload = function() {
-        //       var messageBox = document.querySelector('.message-box');
-        //       if (messageBox.classList.contains('active')) {
-        //           setTimeout(function() {
-        //               window.location.href = 'mainpage.php';
-        //           }, 2000); 
-        //       }
-        //   };
-        //     </script>";
-        // } else if(password_verify($pword, $dbHashedPassword)){
-        //     session_start();
-        //     $_SESSION['username'] = $uname;
-        //     $loginMessage = "Login successful.";
-        //     echo "<script>
-           
-        //     window.onload = function() {
-        //       var messageBox = document.querySelector('.message-box');
-        //       if (messageBox.classList.contains('active')) {
-        //           setTimeout(function() {
-        //               window.location.href = 'mainpage.php';
-        //           }, 2000); 
-        //       }
-        //   };
-        //     </script>";
-        // } else {
-        //     $loginMessage = "Invalid password.";
-
-
-        // }
+      
     } else {
         $loginMessage = "Invalid username or password.";
     }

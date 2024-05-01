@@ -38,10 +38,15 @@
 
 <!-- main section tab -->
 <main class="flex-1 flex shadow-lg bg-white rounded">
-    <div class="sidebar shadow p-3  bg-white pt-5 w-72">
-    <a href="mainpage.php" class="block p-3  hover:bg-gray-200"><i class="fa-regular fa-calendar-days mr-1"></i>Bookings</a>
-        <a href="appointment.php" class="block p-3  hover:bg-gray-200"><i class="fa-regular fa-calendar-check mr-1"></i>Book an appointment</a>
-        <a href="membership.php" class="block p-3 "><i class="fa-solid fa-user mr-1"></i>Membership</a>
+<div class="sidebar shadow p-3 bg-white pt-5 w-72">
+        <a href="mainpage.php" class="block p-3 hover:bg-gray-200"><i class="fa-regular fa-calendar-days mr-1"></i>Bookings</a>
+        <a href="appointment.php" class="block p-3 hover:bg-gray-200"><i class="fa-regular fa-calendar-check mr-1"></i>Book an appointment</a>
+        <a href="membership.php" class="block p-3"><i class="fa-solid fa-user mr-1"></i>Membership</a>
+        <a class="more block p-3 hover:bg-gray-200"><i class="fa-solid fa-bars"></i> More</a>
+        <div id="popup" class="hidden absolute bg-gray-200 shadow-lg rounded w-40 mt-2 mr-10">
+            <a href="" class="block p-3 hover:bg-gray-200">Settings</a>
+            <a href="logout.php" class="block p-3">Logout</a>
+        </div>
     </div>
     <section class="side-main flex-1 bg-gray-100">
         <!-- Your main content goes here -->

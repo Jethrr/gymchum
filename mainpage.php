@@ -2,7 +2,16 @@
     include 'connect.php';
  
     $fetch = "SELECT usertype FROM `tbluserprofile`";
+
+
+
     $query = mysqli_query($connection,$fetch);
+    session_start();
+    $currentuser = $_SESSION['user']; 
+
+    $dataQuery = "SELECT * FROM tblappointments WHERE userId = $currentuser";
+  
+    $res = mysqli_query($connection, $dataQuery);
 
 ?>
 
@@ -42,22 +51,74 @@
                   echo '<h1 class="font-bold text-xl bg-green-200 pl-3 pr-3 rounded-full">' . 'User' . '</h1>';
               }
         ?>
-        <img src="images/profile.png" class="user-profile " onclick="toggleMenu();">
-       
-      </div>
+       <img src="images/profile.png" class="user-profile cursor-pointer" id="userDropdownBtn">
+    <!-- <div class="dropdown-menu hidden absolute top-12 right-0 bg-white shadow-lg rounded w-40">
+        <a href="#" class="block p-2 hover:bg-gray-200">Log Out</a>
+        <a href="#" class="block p-2 hover:bg-gray-200">Settings</a>
+    </div> -->
+    </div>
+	
+	
     </nav>
-
+    
 
     <!-- main section tab -->
     <main class="flex-1 flex shadow-lg bg-white rounded">
-    <div class="sidebar shadow p-3  bg-white pt-5 w-72">
-    <a href="mainpage.php" class="block p-3  hover:bg-gray-200"><i class="fa-regular fa-calendar-days mr-1"></i>Bookings</a>
-        <a href="appointment.php" class="block p-3  hover:bg-gray-200"><i class="fa-regular fa-calendar-check mr-1"></i>Book an appointment</a>
-        <a href="membership.php" class="block p-3 "><i class="fa-solid fa-user mr-1"></i>Membership</a>
+    <div class="sidebar shadow p-3 bg-white pt-5 w-72">
+        <a href="mainpage.php" class="block p-3 hover:bg-gray-200"><i class="fa-regular fa-calendar-days mr-1"></i>Bookings</a>
+        <a href="appointment.php" class="block p-3 hover:bg-gray-200"><i class="fa-regular fa-calendar-check mr-1"></i>Book an appointment</a>
+        <a href="membership.php" class="block p-3"><i class="fa-solid fa-user mr-1"></i>Membership</a>
+        <a class="more block p-3 hover:bg-gray-200"><i class="fa-solid fa-bars"></i> More</a>
+        <div id="popup" class="hidden absolute bg-gray-200 shadow-lg rounded w-40 mt-2 mr-10">
+            <a href="" class="block p-3 hover:bg-gray-200">Settings</a>
+            <a href="logout.php" class="block p-3">Logout</a>
+        </div>
     </div>
     <section class="side-main flex-1 bg-gray-100">
         <!-- Your main content goes here -->
      
+        <div class="headings ml-20 mr-20 mt-10">
+          <h1 class="font-bold text-2xl">Booking</h1>
+          <p>View your bookings here</p>
+        </div>
+        <div class="overflow-auto rounded-lg shadow hidden md:block mt-5 bg-gray-100 m-20">
+            <table class="w-full">
+              <thead class="bg-gray-200 border-b-2 border-gray-200">
+              <tr>
+             
+                <th class="w-20 p-3 text-sm font-semibold tracking-wide text-left">Coach</th>
+                <th class="w-24 p-3 text-sm font-semibold tracking-wide text-left">Date</th>
+                <th class="w-24 p-3 text-sm font-semibold tracking-wide text-left">Time</th>
+                <th class="w-24 p-3 text-sm font-semibold tracking-wide text-left">Service</th>
+                <th class="w-24 p-3 text-sm font-semibold tracking-wide text-left">Status</th>
+              </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-100">
+              <?php
+                    
+                    if (mysqli_num_rows($res) > 0) {
+                        
+                        while ($row = mysqli_fetch_assoc($res)) {
+                          echo "<tr>";
+                         
+                          echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . $row["coach"] . "</td>";
+                          echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . $row["dates"] . "</td>";
+                          echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . $row["timee"] . "</td>";
+                          echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . $row["services"] . "</td>";
+                          echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . 'Pending' . "</td>";
+                          
+                          // echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . '<button class="bg-black text-white pl-5 pr-5 pt-1 pb-1 rounded-full font-semibold" onclick="openBookingsTab(\'' . $row["firstname"] . '\')">Book</button>' . "</td>";
+
+                          echo "</tr>";
+                          
+                        }
+                    } else {
+                        echo "<tr><td colspan='4'>No records found</td></tr>";
+                    }
+                    ?>
+              </tbody>
+            </table>
+       </div>
     
 
 
@@ -82,7 +143,10 @@
     </footer>
 
 
-    <script src="./js/script.js"></script>
+
+   
+
+    <script src="script.js"></script>
     
     <script
       src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"

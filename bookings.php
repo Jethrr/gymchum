@@ -16,9 +16,10 @@
          $txtservice = mysqli_real_escape_string($connection, $_POST['coaching-service']); 
          session_start();
         $userData = $_SESSION["user"];
-        $accId = $userData["userId"];
+      
 
-         $myquery = "INSERT INTO tblappointments (accId, Coach,dates,timee,services) VALUES ('$accId', '$firstname','$txtdate', ' $txttime', ' $txtservice')"; 
+      
+         $myquery = "INSERT INTO tblappointments (userId,Coach,dates,timee,services) VALUES ('$userData', '$firstname','$txtdate', ' $txttime', ' $txtservice')"; 
          $myresult = mysqli_query($connection,$myquery); 
         
         
