@@ -9,7 +9,7 @@
     $firstname = $_GET['coach'];
 
     $getData = "SELECT * FROM `tblappointments` WHERE coach = '$firstname'";
-    $getQuery = mysqli_query($connection,$getData);
+    $getQuery = mysqli_query($connection, $getData);
    
 
 

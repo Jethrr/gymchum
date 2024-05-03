@@ -23,7 +23,10 @@
          $myresult = mysqli_query($connection,$myquery); 
         
         
-        echo "<script>alert('Sucess!');</script>";
+          echo "<script>
+          alert('Sucess!');  
+          </script>";
+      
 
         }
 
@@ -87,6 +90,7 @@
 
         <div class="bookings-nav h-3/4 my-16 flex justify-center items-center ">
         <form method="POST" class="bg-white p-5 h-full w-full max-w-2xl rounded-md">
+                <h1 id="booking-messagebox"></h1>
                 <h1 class="text-3xl font-bold mb-5">Book Now</h1>
                 <label class="font-semibold text-xl" for="booking-date">Date</label>
                 <br>
@@ -143,7 +147,7 @@
     </footer>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/datepicker.min.js"></script>
-    <script src="script.js"></script>
+    <script src="js/script.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     
