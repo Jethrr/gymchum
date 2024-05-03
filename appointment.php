@@ -95,7 +95,7 @@
                           echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . $row["gender"] . "</td>";
                           echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . $row["usertype"] . "</td>";
                           echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . '<button class="bg-black text-white pl-5 pr-5 pt-1 pb-1 rounded-full font-semibold" onclick="openBookingsTab(\'' . $row["firstname"] . '\')">Book</button>' . "</td>";
-
+                          
                           echo "</tr>";
                           
                         }

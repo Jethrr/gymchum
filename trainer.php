@@ -80,6 +80,7 @@
                 <th class="w-24 p-3 text-sm font-semibold tracking-wide text-left">Time</th>
                 <th class="w-24 p-3 text-sm font-semibold tracking-wide text-left">Service</th>
                 <th class="w-24 p-3 text-sm font-semibold tracking-wide text-left">Status</th>
+                <th class="w-24 p-3 text-sm font-semibold tracking-wide text-left"></th>
               </tr>
               </thead>
               <tbody class="divide-y divide-gray-100">
@@ -95,6 +96,7 @@
                           echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . $row["timee"] . "</td>";
                           echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . $row["services"] . "</td>";
                           echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . 'Pending' . "</td>";
+                          
                           
                           // echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . '<button class="bg-black text-white pl-5 pr-5 pt-1 pb-1 rounded-full font-semibold" onclick="openBookingsTab(\'' . $row["firstname"] . '\')">Book</button>' . "</td>";
 

@@ -53,6 +53,10 @@ function openBookingsTab(firstname) {
   window.location.href = "bookings.php?firstname=" + firstname;
 }
 
+function openCancel(coach) {
+  window.location.href = "bookings-data.php?coach=" + coach;
+}
+
 function toggleMenu() {
   var dropdownMenu = document.querySelector(".dropdown-menu");
   dropdownMenu.classList.toggle("hidden");
