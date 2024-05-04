@@ -1,14 +1,15 @@
-<?php 
-    include 'connect.php';
- 
+<?php
+include 'connect.php';
 
-    $fetch = "SELECT usertype FROM `tbluserprofile`";
-    $query = mysqli_query($connection,$fetch);
+$fetch = "SELECT usertype FROM `tbluserprofile`";
+$query = mysqli_query($connection,$fetch);
 
-    $fetch1 = "SELECT * FROM `tbluserprofile` WHERE usertype = 'Trainer'";
-    $query2 = mysqli_query($connection,$fetch1);
+$fetch1 = "SELECT * FROM `tbluserprofile` WHERE usertype = 'Trainer'";
+$query2 = mysqli_query($connection,$fetch1);
+
+$total = "SELECT COUNT(coach) as coach FROM `tblappointments`"; 
+$totalQuery = mysqli_query($connection, $total);
 ?>
-
 
 
 <!DOCTYPE html>
@@ -66,21 +67,24 @@
     </div>
     <section class="side-main flex-1 bg-gray-100 p-10">
         <!-- Your main content goes here -->
-     
+        <div class="header-section">
         <h1 class="text-3xl  font-bold mt-10">Available Coaches</h1>
         <p>Find the right coach for you</p>
+      
+        </div>
+       
 
         <div class="overflow-auto rounded-lg shadow hidden md:block mt-5 bg-gray-100">
             <table class="w-full">
               <thead class="bg-gray-50 border-b-2 border-gray-200">
               <tr>
-                <th class="w-20 p-3 text-sm font-semibold tracking-wide text-left">Id</th>
+                <!-- <th class="w-20 p-3 text-sm font-semibold tracking-wide text-left">Id</th> -->
                 <th class="w-20 p-3 text-sm font-semibold tracking-wide text-left">Firstname</th>
                 <th class="w-24 p-3 text-sm font-semibold tracking-wide text-left">Lastname</th>
                 <th class="w-24 p-3 text-sm font-semibold tracking-wide text-left">Gender</th>
                 <th class="w-24 p-3 text-sm font-semibold tracking-wide text-left">Position</th>
                 <th class="w-24 p-3 text-sm font-semibold tracking-wide text-left"></th>
-                <th class="w-24 p-3 text-sm font-semibold tracking-wide text-left"></th>
+               
               </tr>
               </thead>
               <tbody class="divide-y divide-gray-100">
@@ -89,7 +93,7 @@
                     if (mysqli_num_rows($query2) > 0) {
                       while ($row = mysqli_fetch_assoc($query2)) {
                           echo "<tr>";
-                          echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . $row["userId"] . "</td>";
+                          // echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . $row["userId"] . "</td>";
                           echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . $row["firstname"] . "</td>";
                           echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . $row["lastname"] . "</td>";
                           echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . $row["gender"] . "</td>";
@@ -106,6 +110,16 @@
             </table>
        </div>
 
+       <p class="float-end p-3 font-bold">Coaches Available: <?php 
+          
+          if ($totalQuery->num_rows > 0) {
+            $row = $totalQuery->fetch_assoc();
+            echo  $row["coach"];
+          } else {
+            echo "No records found";
+          }
+                  
+       ?> </p>
 
 
   
