@@ -44,7 +44,7 @@
           <?php
               if (mysqli_num_rows($query) > 0) {
                   $row = mysqli_fetch_assoc($query);
-                  echo '<h1 class="font-bold text-xl bg-gray-200 pl-3 pr-3 rounded-full">' . $row['usertype'] . '</h1>';
+                  echo '<h1 class="font-bold text-xl bg-green-200 pl-3 pr-3 rounded-full">' . $row['usertype'] . '</h1>';
               }
         ?>
         <img src="images/profile.png" class="user-profile " id="userProf">
@@ -54,10 +54,15 @@
 
     <!-- main section tab -->
     <main class="flex-1 flex shadow-lg bg-white rounded">
-    <div class="sidebar shadow p-3  bg-white pt-5 w-72">
-        <a href="mainpage.php" class="block p-3  hover:bg-gray-200"><i class="fa-regular fa-calendar-days mr-1"></i>Bookings</a>
-        <a href="appointment.php" class="block p-3  hover:bg-gray-200"><i class="fa-regular fa-calendar-check mr-1"></i>Book an appointment</a>
-        <a href="membership.php" class="block p-3 "><i class="fa-solid fa-user mr-1"></i>Membership</a>
+    <div class="sidebar shadow p-3 bg-white pt-5 w-72">
+        <a href="mainpage.php" class="block p-3 hover:bg-gray-200"><i class="fa-regular fa-calendar-days mr-1"></i>Bookings</a>
+        <a href="appointment.php" class="block p-3 hover:bg-gray-200"><i class="fa-regular fa-calendar-check mr-1"></i>Book an appointment</a>
+        <a href="membership.php" class="block p-3"><i class="fa-solid fa-user mr-1"></i>Membership</a>
+        <a class="more block p-3 hover:bg-gray-200"><i class="fa-solid fa-bars"></i> More</a>
+        <div id="popup" class="hidden absolute bg-gray-200 shadow-lg rounded w-40 mt-2 mr-10">
+            <a href="" class="block p-3 hover:bg-gray-200">Settings</a>
+            <a href="logout.php" class="block p-3">Logout</a>
+        </div>
     </div>
     <section class="side-main flex-1 bg-gray-100 p-10">
         <!-- Your main content goes here -->
@@ -89,8 +94,8 @@
                           echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . $row["lastname"] . "</td>";
                           echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . $row["gender"] . "</td>";
                           echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . $row["usertype"] . "</td>";
-                          echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'><button class='bg-black text-white pl-5 pr-5 pt-1 pb-1 rounded-full font-semibold' onclick='openEdit(" . $row['userId'] . ")'>Edit</button></td>";
-                          echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'><button class='bg-red-600 text-white pl-5 pr-5 pt-1 pb-1 rounded-full font-semibold' onclick='openDelete()'>Delete</button></td>";
+                          echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . '<button class="bg-black text-white pl-5 pr-5 pt-1 pb-1 rounded-full font-semibold" onclick="openBookingsTab(\'' . $row["firstname"] . '\')">Book</button>' . "</td>";
+                          
                           echo "</tr>";
                       }
                   } else {

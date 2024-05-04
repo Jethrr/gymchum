@@ -4,6 +4,15 @@
     $fetch = "SELECT usertype FROM `tbluserprofile`";
     $query = mysqli_query($connection,$fetch);
 
+    session_start();
+    $currentuser = $_SESSION['user']; 
+
+    $sql1 = "SELECT * FROM `tblappointments`";
+    
+    $res = mysqli_query($connection, $sql1);
+
+    var_dump($res);
+
 ?>
 
 
@@ -57,6 +66,50 @@
     <section class="side-main flex-1 bg-gray-100">
         <!-- Your main content goes here -->
      
+        <div class="headings ml-20 mr-20 mt-10">
+          <h1 class="font-bold text-2xl">Booking</h1>
+          <p>See bookings here</p>
+        </div>
+        <div class="overflow-auto rounded-lg shadow hidden md:block mt-5 bg-gray-100 m-20">
+            <table class="w-full">
+              <thead class="bg-gray-200 border-b-2 border-gray-200">
+              <tr>
+             
+                <th class="w-20 p-3 text-sm font-semibold tracking-wide text-left">Name</th>
+                <th class="w-24 p-3 text-sm font-semibold tracking-wide text-left">Date</th>
+                <th class="w-24 p-3 text-sm font-semibold tracking-wide text-left">Time</th>
+                <th class="w-24 p-3 text-sm font-semibold tracking-wide text-left">Service</th>
+                <th class="w-24 p-3 text-sm font-semibold tracking-wide text-left">Status</th>
+                <th class="w-24 p-3 text-sm font-semibold tracking-wide text-left"></th>
+              </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-100">
+              <?php
+                    
+                    if (mysqli_num_rows($res) > 0) {
+                        
+                        while ($row = mysqli_fetch_assoc($res)) {
+                          echo "<tr>";
+                         
+                          echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . $row["coach"] . "</td>";
+                          echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . $row["dates"] . "</td>";
+                          echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . $row["timee"] . "</td>";
+                          echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . $row["services"] . "</td>";
+                          echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . 'Pending' . "</td>";
+                          
+                          
+                          // echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . '<button class="bg-black text-white pl-5 pr-5 pt-1 pb-1 rounded-full font-semibold" onclick="openBookingsTab(\'' . $row["firstname"] . '\')">Book</button>' . "</td>";
+
+                          echo "</tr>";
+                          
+                        }
+                    } else {
+                        echo "<tr><td colspan='4'>No records found</td></tr>";
+                    }
+                    ?>
+              </tbody>
+            </table>
+       </div>
     
 
 
