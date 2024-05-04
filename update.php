@@ -5,8 +5,36 @@
     $fetch = "SELECT usertype FROM `tbluserprofile`";
     $query = mysqli_query($connection,$fetch);
 
-    $fetch1 = "SELECT * FROM `tbluserprofile` WHERE usertype = 'Trainer'";
+    $fetch1 = "SELECT * FROM `tbluserprofile` WHERE usertype = 'trainer'";
     $query2 = mysqli_query($connection,$fetch1);
+
+    $userId = $_GET['userId']; 
+
+    if(isset($_POST['btnUpdate'])){
+        $userId = $_GET['userId']; 
+        $fname = mysqli_real_escape_string($connection, $_POST['USERNAME']);
+        $lname = mysqli_real_escape_string($connection, $_POST['LASTNAME']);
+        $gender = mysqli_real_escape_string($connection, $_POST['GENDER']);
+        $utype = mysqli_real_escape_string($connection, $_POST['USERTYPE']);
+
+
+        $updateQuery = "UPDATE `tbluserprofile` SET firstname='$fname', lastname='$lname', gender='$gender', usertype='$utype' WHERE userId='$userId'";
+        if (mysqli_query($connection, $updateQuery)) {
+             echo "<alert>Record Updated Succesfully</alert>";
+        } else {
+            echo "<alert>Record Updated Succesfully</alert>". mysqli_error($connection);
+        }
+
+    }
+
+    $userId = $_GET['userId']; 
+    $fetchUserQuery = "SELECT * FROM `tbluserprofile` WHERE userId=$userId ";
+    $userData = mysqli_query($connection, $fetchUserQuery);
+    $row = mysqli_fetch_assoc($userData);
+
+  
+
+
 ?>
 
 
@@ -62,48 +90,36 @@
     <section class="side-main flex-1 bg-gray-100 p-10">
         <!-- Your main content goes here -->
      
-        <h1 class="text-3xl  font-bold mt-10">Available Coaches</h1>
-        <p>Find the right coach for you</p>
+        <h1 class="text-3xl  font-bold mt-10">Edit Profile</h1>
+        
 
-        <div class="overflow-auto rounded-lg shadow hidden md:block mt-5 bg-gray-100">
-            <table class="w-full">
-              <thead class="bg-gray-50 border-b-2 border-gray-200">
-              <tr>
-                <th class="w-20 p-3 text-sm font-semibold tracking-wide text-left">Id</th>
-                <th class="w-20 p-3 text-sm font-semibold tracking-wide text-left">Firstname</th>
-                <th class="w-24 p-3 text-sm font-semibold tracking-wide text-left">Lastname</th>
-                <th class="w-24 p-3 text-sm font-semibold tracking-wide text-left">Gender</th>
-                <th class="w-24 p-3 text-sm font-semibold tracking-wide text-left">Position</th>
-                <th class="w-24 p-3 text-sm font-semibold tracking-wide text-left"></th>
-                <th class="w-24 p-3 text-sm font-semibold tracking-wide text-left"></th>
-              </tr>
-              </thead>
-              <tbody class="divide-y divide-gray-100">
-              <?php
-                    
-                    if (mysqli_num_rows($query2) > 0) {
-                      while ($row = mysqli_fetch_assoc($query2)) {
-                          echo "<tr>";
-                          echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . $row["userId"] . "</td>";
-                          echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . $row["firstname"] . "</td>";
-                          echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . $row["lastname"] . "</td>";
-                          echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . $row["gender"] . "</td>";
-                          echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . $row["usertype"] . "</td>";
-                          echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'><button class='bg-black text-white pl-5 pr-5 pt-1 pb-1 rounded-full font-semibold' onclick='openEdit(" . $row['userId'] . ")'>Edit</button></td>";
-                          echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'><button class='bg-red-600 text-white pl-5 pr-5 pt-1 pb-1 rounded-full font-semibold' onclick='openDelete()'>Delete</button></td>";
-                          echo "</tr>";
-                      }
-                  } else {
-                      echo "<tr><td colspan='4'>No records found</td></tr>";
-                  }
-                    ?>
-              </tbody>
-            </table>
-       </div>
+        <h1 class="mb-5">Update</h1>
 
+     
+        <form action="" method="POST" >
 
+      
+        <div class="edit-div bg-gray-200 p-5">
+        <input type="hidden" name="userId" value="<?php echo isset($row['userId']) ? $row['userId'] : ''; ?>">
 
-  
+            <label for="">Firstname</label>
+            <input type="text" name="USERNAME" class="m-5" >
+            <br>
+            <label for="">Lastname</label>
+            <input type="text" name="LASTNAME" class="m-5">
+            <br>
+            <label for="">Gender</label>
+            <input type="text" name="GENDER" class="m-5">
+            <br>
+            <label for="">Usertype</label>
+            <input type="text" name="USERTYPE" class="m-5">
+            
+            <br>
+            
+            <input type="submit" name="btnUpdate" value="Update" class="bg-red-500 pl-3 pr-3 pt-1 pb-1">
+        </div>
+        
+        </form>
 
 
     </section>
