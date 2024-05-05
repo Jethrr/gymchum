@@ -33,9 +33,11 @@ if(isset($_POST['login'])){
           if($row['usertype'] == 'Trainer'){
           
             echo '<script>setTimeout(function(){window.location.href="trainer.php";}, 5000);</script>';
-        } else {
+        } else if($row['usertype'] == 'Admin'){
+          echo '<script>setTimeout(function(){window.location.href="admin.php";}, 5000);</script>';
+        }else {
             
-            echo '<script>setTimeout(function(){window.location.href="mainpage.php";}, 5000);</script>';
+            echo '<script>setTimeout(function(){window.location.href="dashboard/mainpage.php";}, 5000);</script>';
         }
         
           exit();

@@ -10,9 +10,15 @@
     $currentuser = $_SESSION['user']; 
     
 
-    $dataQuery = "SELECT * FROM tblappointments WHERE userId = $currentuser";
+    $dataQuery = "SELECT * FROM tblappointments";
   
     $res = mysqli_query($connection, $dataQuery);
+
+    $userRecords = "SELECT * FROM `tbluserprofile`";
+    $userQuery = mysqli_query($connection, $userRecords);
+
+    $userProfile = "SELECT * FROM `tbluseraccount`";
+    $profileQuery = mysqli_query($connection, $userProfile);
     
 ?>
 
@@ -47,7 +53,7 @@
           <?php
               if (mysqli_num_rows($query) > 0) {
                   $row = mysqli_fetch_assoc($query);
-                  echo '<h1 class="font-bold text-xl bg-green-200 pl-3 pr-3 rounded-full">' . 'User' . '</h1>';
+                  echo '<h1 class="font-bold text-xl bg-green-200 pl-3 pr-3 rounded-full">' . 'Admin' . '</h1>';
               }
         ?>
        <img src="images/profile.png" class="user-profile cursor-pointer" id="userDropdownBtn">
@@ -64,9 +70,9 @@
     <!-- main section tab -->
     <main class="flex-1 flex shadow-lg bg-white rounded">
     <div class="sidebar shadow p-3 bg-white pt-5 w-72">
-        <a href="mainpage.php" class="block p-3 hover:bg-gray-200"><i class="fa-regular fa-calendar-days mr-1"></i>Bookings</a>
-        <a href="appointment.php" class="block p-3 hover:bg-gray-200"><i class="fa-regular fa-calendar-check mr-1"></i>Book an appointment</a>
-        <a href="membership.php" class="block p-3"><i class="fa-solid fa-user mr-1"></i>Membership</a>
+        <a href="admin.php" class="block p-3 hover:bg-gray-200"><i class="fa-regular fa-calendar-days mr-1"></i>Records</a>
+    
+       
         <a class="more block p-3 hover:bg-gray-200"><i class="fa-solid fa-bars"></i> More</a>
         <div id="popup" class="hidden absolute bg-gray-200 shadow-lg rounded w-40 mt-2 mr-10">
             <a href="" class="block p-3 hover:bg-gray-200">Settings</a>
@@ -78,7 +84,7 @@
      
         <div class="headings ml-20 mr-20 mt-10">
           <h1 class="font-bold text-2xl">Booking</h1>
-          <p>View your bookings here</p>
+          <p>All bookings</p>
         </div>
         <div class="overflow-auto rounded-lg shadow hidden md:block mt-5 bg-gray-100 m-20">
             <table class="w-full">
@@ -108,8 +114,92 @@
                           
                           echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . 'Pending' . "</td>";
                           
-                          echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . '<button class="bg-black text-white pl-5 pr-5 pt-1 pb-1 rounded-full font-semibold" onclick="openCancel(\'' . $row["coach"] . '\')">Edit</button>' . "</td>";
+                          echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . '<button class="bg-black text-white pl-5 pr-5 pt-1 pb-1 rounded-full font-semibold" ">Edit</button>' . "</td>";
 
+                          echo "</tr>";
+                          
+                        }
+                    } else {
+                        echo "<tr><td colspan='4'>No records found</td></tr>";
+                    }
+                    ?>
+              </tbody>
+            </table>
+       </div>
+    
+
+
+       <div class="headings ml-20 mr-20 mt-10">
+          <h1 class="font-bold text-2xl">Users</h1>
+          <p>All Users</p>
+        </div>
+        <div class="overflow-auto rounded-lg shadow hidden md:block mt-5 bg-gray-100 m-20">
+            <table class="w-full">
+              <thead class="bg-gray-200 border-b-2 border-gray-200">
+              <tr>
+             
+                <th class="w-20 p-3 text-sm font-semibold tracking-wide text-left">Firsname</th>
+                <th class="w-24 p-3 text-sm font-semibold tracking-wide text-left">Lastname</th>
+                <th class="w-24 p-3 text-sm font-semibold tracking-wide text-left">Gender</th>
+              </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-100">
+              <?php
+                    
+                    if (mysqli_num_rows($userQuery) > 0) {
+                        
+                        while ($row = mysqli_fetch_assoc($userQuery)) {
+                          echo "<tr>";
+                         
+                          echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . $row["firstname"] . "</td>";
+                          echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . $row["lastname"] . "</td>";
+                          echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . $row["gender"] . "</td>";
+                        
+                          
+                        
+                         
+
+                          echo "</tr>";
+                          
+                        }
+                    } else {
+                        echo "<tr><td colspan='4'>No records found</td></tr>";
+                    }
+                    ?>
+              </tbody>
+            </table>
+       </div>
+
+
+       
+       <div class="headings ml-20 mr-20 mt-10">
+          <h1 class="font-bold text-2xl">User Profile</h1>
+          <p>All User Profile</p>
+        </div>
+        <div class="overflow-auto rounded-lg shadow hidden md:block mt-5 bg-gray-100 m-20">
+            <table class="w-full">
+              <thead class="bg-gray-200 border-b-2 border-gray-200">
+              <tr>
+             
+                <th class="w-20 p-3 text-sm font-semibold tracking-wide text-left w-1/2">Username</th>
+                <th class="w-24 p-3 text-sm font-semibold tracking-wide text-left w-1/2">Email</th>
+                
+               
+              </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-100">
+              <?php
+                    
+                    if (mysqli_num_rows($profileQuery) > 0) {
+                        
+                        while ($row = mysqli_fetch_assoc($profileQuery)) {
+                          echo "<tr>";
+                         
+                          echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . $row["username"] . "</td>";
+                          echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . $row["emailadd"] . "</td>";
+                        
+                          
+                         
                           echo "</tr>";
                           
                         }
