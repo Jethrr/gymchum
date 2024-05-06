@@ -37,7 +37,7 @@ if(isset($_POST['login'])){
           echo '<script>setTimeout(function(){window.location.href="admin.php";}, 5000);</script>';
         }else {
             
-            echo '<script>setTimeout(function(){window.location.href="dashboard/mainpage.php";}, 5000);</script>';
+            echo '<script>setTimeout(function(){window.location.href="mainpage.php";}, 5000);</script>';
         }
         
           exit();

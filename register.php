@@ -38,7 +38,7 @@ if(isset($_POST['btnRegister'])){
             mysqli_query($connection, $sql2);
             
 
-            var_dump($hash_pword );
+          
             $registerMessage = "Registration successful. You can now login.";
         }
     }

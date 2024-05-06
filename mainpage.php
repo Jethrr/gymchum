@@ -51,10 +51,7 @@
               }
         ?>
        <img src="images/profile.png" class="user-profile cursor-pointer" id="userDropdownBtn">
-    <!-- <div class="dropdown-menu hidden absolute top-12 right-0 bg-white shadow-lg rounded w-40">
-        <a href="#" class="block p-2 hover:bg-gray-200">Log Out</a>
-        <a href="#" class="block p-2 hover:bg-gray-200">Settings</a>
-    </div> -->
+
     </div>
 	
 	
@@ -147,7 +144,7 @@
 
    
 
-    <script src="js/script.js"></script>
+    <script src="/js/script.js"></script>
     
     <script
       src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"

@@ -8,10 +8,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="/css/style.css" />
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
-  <body class="flex flex-col min-h-screen">
+  <body class="flex flex-col min-h-screen" >
     <nav class="p-3 flex items-center justify-between text-black">
       <div class="logo-div flex items-center ml-10">
         <img src="images/logo.png" class="w-24" />
@@ -28,7 +28,7 @@
 
     <section class="main-section flex items-center justify-center">
       <div class="bigtext text-center my-9">
-        <h1 class="font-bold text-5xl bg-gradient-to-br from-green-500 to-blue-500 text-transparent bg-clip-text">WELCOME TO GYMCHUM</h1>
+        <h1 class="font-bold text-7xl text-white bg-clip-text">WELCOME TO GYMCHUM</h1>
       </div>
 
      

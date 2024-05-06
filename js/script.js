@@ -63,13 +63,6 @@ function toggleMenu() {
   alert("TEST");
 }
 
-function showMessageBox() {
-  var box = document.getElementById("booking-messagebox");
-  var text = document.createTextNode("This just got added");
-
-  box.appendChild(text);
-}
-
 document
   .getElementById("userDropdownBtn")
   .addEventListener("click", toggleMenu);
