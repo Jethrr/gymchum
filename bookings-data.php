@@ -121,7 +121,7 @@
                 <label class="font-semibold text-xl" for="booking-time">Time</label>
                 <br>
                 <select id="booking-time" name="booking-time" required class="border border-black w-full p-3">
-                    <option value="" disabled selected></option> 
+                    <option value="" disabled selected>Select Time</option> 
                     <option value="9:00AM - 10:00AM">9:00AM - 10:00AM</option>
                     <option value="10:30AM - 11:30AM">10:30AM - 11:30AM</option>
                     <option value=" 1:00AM - 2:00AM">1:00AM - 2:00AM</option>
@@ -130,10 +130,7 @@
                 <label class="font-semibold text-xl" for="coaching-service">Coaching Service</label>
                 <br>
                 <select id="coaching-service" name="coaching-service" required class="border border-black w-full p-3">
-                    <option value="" disabled selected><?php
-                       
-                      
-                    ?></option> 
+                  <option value="" disabled selected>Select Service</option> 
                     
                     <option value="Coaching">Coaching</option>
                     <option value="Conditioning">Conditioning</option>

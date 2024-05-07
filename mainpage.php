@@ -50,7 +50,11 @@
                   echo '<h1 class="font-bold text-xl bg-green-200 pl-3 pr-3 rounded-full">' . 'User' . '</h1>';
               }
         ?>
-       <img src="images/profile.png" class="user-profile cursor-pointer" id="userDropdownBtn">
+       <img src="images/profile.png" class="user-profile cursor-pointer"  onclick="openDropdown();">
+       <ul class="dropdown hidden absolute right-0 top-12 bg-white shadow-md rounded-md p-2" id="dropdown">
+        <li><a href="#">Profile</a></li>
+        <li><a href="logout.php">Logout</a></li>
+    </ul>
 
     </div>
 	
@@ -144,7 +148,7 @@
 
    
 
-    <script src="/js/script.js"></script>
+    <script src="js/script.js"></script>
     
     <script
       src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"

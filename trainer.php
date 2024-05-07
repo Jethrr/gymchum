@@ -1,17 +1,18 @@
 <?php 
     include 'connect.php';
- 
+    session_start();
     $fetch = "SELECT usertype FROM `tbluserprofile`";
     $query = mysqli_query($connection,$fetch);
 
-    session_start();
-    $currentuser = $_SESSION['user']; 
-
-    $sql1 = "SELECT * FROM `tblappointments`";
+   
+    $currentuser =  $_SESSION['username']; 
+  
+    $sql1 = "SELECT a.*, u.firstname AS userName, s.emailadd AS emailAdd FROM `tblappointments` a JOIN `tbluserprofile` u ON a.userId = u.userId JOIN `tbluseraccount` s ON a.userId = s.acctId WHERE a.coach  = '$currentuser'";
+   
     
     $res = mysqli_query($connection, $sql1);
 
-    var_dump($res);
+  
 
 ?>
 
@@ -71,47 +72,53 @@
           <p>See bookings here</p>
         </div>
         <div class="overflow-auto rounded-lg shadow hidden md:block mt-5 bg-gray-100 m-20">
-            <table class="w-full">
-              <thead class="bg-gray-200 border-b-2 border-gray-200">
-              <tr>
-             
-                <th class="w-20 p-3 text-sm font-semibold tracking-wide text-left">Name</th>
-                <th class="w-24 p-3 text-sm font-semibold tracking-wide text-left">Date</th>
-                <th class="w-24 p-3 text-sm font-semibold tracking-wide text-left">Time</th>
-                <th class="w-24 p-3 text-sm font-semibold tracking-wide text-left">Service</th>
-                <th class="w-24 p-3 text-sm font-semibold tracking-wide text-left">Status</th>
-                <th class="w-24 p-3 text-sm font-semibold tracking-wide text-left"></th>
-              </tr>
-              </thead>
-              <tbody class="divide-y divide-gray-100">
-              <?php
-                    
-                    if (mysqli_num_rows($res) > 0) {
-                        
-                        while ($row = mysqli_fetch_assoc($res)) {
-                          echo "<tr>";
-                         
-                          echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . $row["coach"] . "</td>";
-                          echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . $row["dates"] . "</td>";
-                          echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . $row["timee"] . "</td>";
-                          echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . $row["services"] . "</td>";
-                          echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . 'Pending' . "</td>";
-                          
-                          
-                          // echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . '<button class="bg-black text-white pl-5 pr-5 pt-1 pb-1 rounded-full font-semibold" onclick="openBookingsTab(\'' . $row["firstname"] . '\')">Book</button>' . "</td>";
+    <table class="w-full table-fixed">
+        <thead class="bg-gray-200 border-b-2 border-gray-200">
+            <tr>
+                <th class="w-1/6 p-3 text-sm font-semibold tracking-wide text-left">Name</th>
+                <th class="w-1/6 p-3 text-sm font-semibold tracking-wide text-left">Email</th>
+                <th class="w-1/6 p-3 text-sm font-semibold tracking-wide text-left">Date</th>
+                <th class="w-1/6 p-3 text-sm font-semibold tracking-wide text-left">Time</th>
+                <th class="w-1/6 p-3 text-sm font-semibold tracking-wide text-left">Service</th>
+                <th class="w-1/6 p-3 text-sm font-semibold tracking-wide text-left">Actions</th>
+            </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-100">
+            <?php
+            if (mysqli_num_rows($res) > 0) {
+                while ($row = mysqli_fetch_assoc($res)) {
+                    echo "<tr>";
+                    echo "<td class='w-1/6 p-3 text-sm text-gray-700 whitespace-nowrap'>" . $row["userName"] . "</td>";
+                    echo "<td class='w-1/6 p-3 text-sm text-gray-700 whitespace-nowrap'>" . $row["emailAdd"] . "</td>";
+                    echo "<td class='w-1/6 p-3 text-sm text-gray-700 whitespace-nowrap'>" . $row["dates"] . "</td>";
+                    echo "<td class='w-1/6 p-3 text-sm text-gray-700 whitespace-nowrap'>" . $row["timee"] . "</td>";
+                    echo "<td class='w-1/6 p-3 text-sm text-gray-700 whitespace-nowrap'>" . $row["services"] . "</td>";
+                    echo "<td class='w-1/6 p-3 text-sm text-gray-700 whitespace-nowrap'>";
+                    echo '<button class="btnOpenConfirm bg-black text-white pl-5 pr-5 pt-1 pb-1 rounded-full font-semibold" onclick="openPopUpBtn()">Confirm</button>';
+                   
+                    echo '<button class="bg-red-700 text-white pl-5 pr-5 pt-1 pb-1 rounded-full font-semibold" onclick="openCancelDialog(\'' . $row["userName"] . '\')">Cancel</button>';
+                    echo "</td>";
+                    echo "</tr>";
+                }
+            } else {
+                echo "<tr><td colspan='6'>No records found</td></tr>";
+            }
+            ?>
+        </tbody>
+    </table>
+</div>
 
-                          echo "</tr>";
-                          
-                        }
-                    } else {
-                        echo "<tr><td colspan='4'>No records found</td></tr>";
-                    }
-                    ?>
-              </tbody>
-            </table>
-       </div>
     
+       <div class="popUp" id="popup">
+      <img src="/images/check.png" alt="" class="imgdiv" />
+      <h2>Thank You!</h2>
+      <p>
+        Ordered Successfully Processed. Visit your email for details and
+        confirmation. Thanks for supporting CSC!
+      </p>
 
+      <button onclick="closePopUpBtn();">Close</button>
+    </div>
 
     </section>
     </main>

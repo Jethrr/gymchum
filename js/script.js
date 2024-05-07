@@ -44,11 +44,6 @@ document.addEventListener("DOMContentLoaded", function () {
   );
 });
 
-function toggleDropdown() {
-  var dropdownMenu = document.getElementById("dropdownMenu");
-  dropdownMenu.classList.toggle("show");
-}
-
 function openBookingsTab(firstname) {
   window.location.href = "bookings.php?firstname=" + firstname;
 }
@@ -57,21 +52,28 @@ function openCancel(coach) {
   window.location.href = "bookings-data.php?coach=" + coach;
 }
 
-function toggleMenu() {
-  var dropdownMenu = document.querySelector(".dropdown-menu");
-  dropdownMenu.classList.toggle("hidden");
-  alert("TEST");
-}
-
-document
-  .getElementById("userDropdownBtn")
-  .addEventListener("click", toggleMenu);
-
 document.addEventListener("DOMContentLoaded", function () {
-  const moreLink = document.querySelector(".more");
-  const popup = document.getElementById("popup");
+  var profileImage = document.getElementById("userImage");
+  var dropdown = document.getElementById("dropdown");
 
-  moreLink.addEventListener("click", function () {
-    popup.classList.toggle("hidden");
+  profileImage.addEventListener("click", function (event) {
+    dropdown.classList.toggle("hidden");
+    event.stopPropagation();
+  });
+
+  document.addEventListener("click", function (event) {
+    if (!event.target.matches(".user-profile")) {
+      dropdown.classList.add("hidden");
+    }
   });
 });
+
+let popUp = document.getElementById("popup");
+
+function openPopUpBtn() {
+  popUp.classList.add("openPopUp");
+}
+
+function closePopUpBtn() {
+  popUp.classList.remove("openPopUp");
+}

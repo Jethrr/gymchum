@@ -222,3 +222,44 @@ hr {
   background-position: center;
   min-height: calc(100vh - 15rem);
 }
+
+.popUp {
+  width: 400px;
+  background: #000;
+  border-radius: 6px;
+  position: absolute;
+  color: white;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.1);
+  text-align: center;
+  padding: 0 30px 60px;
+  visibility: hidden;
+}
+
+.openPopUp {
+  visibility: visible;
+  top: 50%;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.popUp img {
+  width: 100px;
+  margin-top: -50px;
+  border-radius: 50%;
+  border: 3px solid black;
+}
+
+.popUp h2 {
+  font-size: 30px;
+  margin: 30px 0 10px;
+}
+
+.popUp button {
+  width: 100%;
+  margin-top: 50px;
+  padding: 10px 0;
+  border: 0;
+  border-radius: 6px;
+  font-size: 16px;
+}
