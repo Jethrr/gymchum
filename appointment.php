@@ -1,14 +1,16 @@
 <?php
 include 'connect.php';
-
+session_start();
 $fetch = "SELECT usertype FROM `tbluserprofile`";
 $query = mysqli_query($connection,$fetch);
 
 $fetch1 = "SELECT * FROM `tbluserprofile` WHERE usertype = 'Trainer'";
 $query2 = mysqli_query($connection,$fetch1);
 
-$total = "SELECT COUNT(coach) as coach FROM `tblappointments`"; 
+
+$total = "SELECT COUNT(*) AS trainer_count FROM `tbluserprofile` WHERE usertype = 'Trainer'"; 
 $totalQuery = mysqli_query($connection, $total);
+
 ?>
 
 
@@ -45,7 +47,7 @@ $totalQuery = mysqli_query($connection, $total);
           <?php
               if (mysqli_num_rows($query) > 0) {
                   $row = mysqli_fetch_assoc($query);
-                  echo '<h1 class="font-bold text-xl bg-green-200 pl-3 pr-3 rounded-full">' . $row['usertype'] . '</h1>';
+                  echo '<h1 class="font-bold text-xl bg-green-200 pl-3 pr-3 rounded-full">' . 'User'. '</h1>';
               }
         ?>
         <img src="images/profile.png" class="user-profile " id="userProf">
@@ -59,9 +61,9 @@ $totalQuery = mysqli_query($connection, $total);
         <a href="mainpage.php" class="block p-3 hover:bg-gray-200"><i class="fa-regular fa-calendar-days mr-1"></i>Bookings</a>
         <a href="appointment.php" class="block p-3 hover:bg-gray-200"><i class="fa-regular fa-calendar-check mr-1"></i>Book an appointment</a>
         <a href="membership.php" class="block p-3"><i class="fa-solid fa-user mr-1"></i>Membership</a>
-        <a class="more block p-3 hover:bg-gray-200"><i class="fa-solid fa-bars"></i> More</a>
-        <div id="popup" class="hidden absolute bg-gray-200 shadow-lg rounded w-40 mt-2 mr-10">
-            <a href="" class="block p-3 hover:bg-gray-200">Settings</a>
+        <a class="more block p-3 hover:bg-gray-200 cursor-pointer" id="more"><i class="fa-solid fa-bars"></i> More</a>
+        <div id="popup" class="hidden absolute bg-gray-200 shadow-lg rounded w-60 mt-2 mr-10">
+            <a href="user-settings.php" class="block p-3 hover:bg-gray-200">Settings</a>
             <a href="logout.php" class="block p-3">Logout</a>
         </div>
     </div>
@@ -73,7 +75,9 @@ $totalQuery = mysqli_query($connection, $total);
       
         </div>
        
-
+        <!-- <div class="mt-5">
+           <input id="searchInput" type="text" placeholder="Search" class="border p-2 rounded-lg w-2/5">
+        </div> -->
         <div class="overflow-auto rounded-lg shadow hidden md:block mt-5 bg-gray-100">
             <table class="w-full">
               <thead class="bg-gray-50 border-b-2 border-gray-200">
@@ -87,7 +91,7 @@ $totalQuery = mysqli_query($connection, $total);
                
               </tr>
               </thead>
-              <tbody class="divide-y divide-gray-100">
+              <tbody id="tableBody" class="divide-y divide-gray-100">
               <?php
                     
                     if (mysqli_num_rows($query2) > 0) {
@@ -114,7 +118,7 @@ $totalQuery = mysqli_query($connection, $total);
           
           if ($totalQuery->num_rows > 0) {
             $row = $totalQuery->fetch_assoc();
-            echo  $row["coach"];
+            echo  $row["trainer_count"];
           } else {
             echo "No records found";
           }
@@ -145,7 +149,8 @@ $totalQuery = mysqli_query($connection, $total);
       </div>
     </footer>
 
-    <script src="js/script.js"></script>
+    <script src="/js/script.js"></script>
+   
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     
@@ -164,5 +169,24 @@ $totalQuery = mysqli_query($connection, $total);
       integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
       crossorigin="anonymous"
     ></script>
+
+
+
+    <script>
+       const dropdown = document.getElementById("more");
+       const popup = document.getElementById("popup");
+
+      dropdown.addEventListener("click", function toggleDropDown() {
+          popup.classList.toggle("hidden");
+      });
+
+
+        document.addEventListener("click", function closeDropDown(event) {
+            if (!popup.contains(event.target) && event.target !== dropdown) {
+                popup.classList.add("hidden");
+            }
+        });
+
+    </script>
   </body>
 </html>

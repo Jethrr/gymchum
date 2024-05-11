@@ -3,8 +3,6 @@
     session_start();
     $fetch = "SELECT usertype FROM `tbluserprofile`";
 
-
-
     $query = mysqli_query($connection,$fetch);
    
     $currentuser = $_SESSION['user']; 
@@ -68,9 +66,9 @@
         <a href="mainpage.php" class="block p-3 hover:bg-gray-200"><i class="fa-regular fa-calendar-days mr-1"></i>Bookings</a>
         <a href="appointment.php" class="block p-3 hover:bg-gray-200"><i class="fa-regular fa-calendar-check mr-1"></i>Book an appointment</a>
         <a href="membership.php" class="block p-3"><i class="fa-solid fa-user mr-1"></i>Membership</a>
-        <a class="more block p-3 hover:bg-gray-200"><i class="fa-solid fa-bars"></i> More</a>
-        <div id="popup" class="hidden absolute bg-gray-200 shadow-lg rounded w-40 mt-2 mr-10">
-            <a href="" class="block p-3 hover:bg-gray-200">Settings</a>
+        <a class="more block p-3 hover:bg-gray-200 cursor-pointer" id="more"><i class="fa-solid fa-bars"></i> More</a>
+        <div id="popup" class="hidden absolute bg-gray-200 shadow-lg rounded w-60 mt-2 mr-10">
+            <a href="user-settings.php" class="block p-3 hover:bg-gray-200">Settings</a>
             <a href="logout.php" class="block p-3">Logout</a>
         </div>
     </div>
@@ -107,15 +105,15 @@
                           echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . $row["timee"] . "</td>";
                           echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . $row["services"] . "</td>";
                           
-                          echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . 'Pending' . "</td>";
+                          echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" .  $row["status"] . "</td>";
                           
-                          echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . '<button class="bg-black text-white pl-5 pr-5 pt-1 pb-1 rounded-full font-semibold" onclick="openCancel(\'' . $row["coach"] . '\')">Edit</button>' . "</td>";
+                          echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . '<button class="bg-black text-white pl-5 pr-5 pt-1 pb-1 rounded-full font-semibold" onclick="openCancel(\'' . $row["appointmentId"] . '\')">Edit</button>' . "</td>";
 
                           echo "</tr>";
                           
                         }
                     } else {
-                        echo "<tr><td colspan='4'>No records found</td></tr>";
+                        echo "<tr><td colspan='4' class ='p-5'>No records found</td></tr>";
                     }
                     ?>
               </tbody>
@@ -165,5 +163,24 @@
       integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
       crossorigin="anonymous"
     ></script>
+
+
+
+    <script>
+       const dropdown = document.getElementById("more");
+       const popup = document.getElementById("popup");
+
+      dropdown.addEventListener("click", function toggleDropDown() {
+          popup.classList.toggle("hidden");
+      });
+
+
+        document.addEventListener("click", function closeDropDown(event) {
+            if (!popup.contains(event.target) && event.target !== dropdown) {
+                popup.classList.add("hidden");
+            }
+        });
+
+    </script>
   </body>
 </html>

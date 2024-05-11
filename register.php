@@ -32,14 +32,15 @@ if(isset($_POST['btnRegister'])){
           $hash_pword = password_hash($pword, PASSWORD_DEFAULT);
       
             $sql1 = "INSERT INTO tbluserprofile(firstname, lastname, gender, usertype) VALUES ('$fname', '$lname', '$gender','$type')";
-            mysqli_query($connection, $sql1);
+            $sql1Query = mysqli_query($connection, $sql1);
      
             $sql2 ="INSERT INTO tbluseraccount(emailadd, username, password) VALUES ('$email', '$uname', '$hash_pword')";
-            mysqli_query($connection, $sql2);
+            $sql2Query = mysqli_query($connection, $sql2);
             
 
           
             $registerMessage = "Registration successful. You can now login.";
+          
         }
     }
 }

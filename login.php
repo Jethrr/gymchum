@@ -34,7 +34,7 @@ if(isset($_POST['login'])){
           session_regenerate_id(true);
           $loginMessage = "Login successful.";
           if($row['usertype'] == 'Trainer'){
-            // $_SESSION['user'] = $row['userId'];
+          
             echo '<script>setTimeout(function(){window.location.href="trainer.php";}, 5000);</script>';
         } else if($row['usertype'] == 'Admin'){
           echo '<script>setTimeout(function(){window.location.href="admin.php";}, 5000);</script>';

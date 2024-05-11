@@ -5,12 +5,80 @@
     $query = mysqli_query($connection,$fetch);
 
    
-    $currentuser =  $_SESSION['username']; 
-  
-    $sql1 = "SELECT a.*, u.firstname AS userName, s.emailadd AS emailAdd FROM `tblappointments` a JOIN `tbluserprofile` u ON a.userId = u.userId JOIN `tbluseraccount` s ON a.userId = s.acctId WHERE a.coach  = '$currentuser'";
+    $currentUserName = $_SESSION['username'];
+
+ 
+ 
    
-    
+
+    $sql1 = "SELECT a.*, u.firstname AS userName, s.emailadd AS emailAdd FROM `tblappointments` a JOIN `tbluserprofile` u ON a.userId = u.userId JOIN `tbluseraccount` s ON a.userId = s.acctId WHERE a.coach  = '$currentUserName'";
+   
+    // $sql1 = "SELECT a.*, u.firstname AS userName, s.emailadd AS emailAdd
+    // FROM `tblappointments` a 
+    // JOIN `tbluserprofile` u ON a.userId = u.userId 
+    // JOIN `tbluseraccount` s ON a.userId = s.acctId
+    // WHERE a.coach = '$currentUserName'";
+
+
     $res = mysqli_query($connection, $sql1);
+
+
+
+
+    // if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["appointmentId"])) {
+     
+
+    //     $appointmentId = $_POST["appointmentId"];
+
+    //     // Perform the deletion operation
+    //     $deleteQuery = "UPDATE tblappointments SET status = 'Decline' WHERE appointmentId = '$appointmentId'";
+    //     $result = mysqli_query($connection, $deleteQuery);
+
+    //     if ($result) {
+    //         echo json_encode(array("status" => "success"));
+    //     } else {
+    //         echo json_encode(array("status" => "error", "message" => "Failed to delete appointment."));
+    //     }
+
+    //     exit(); // Stop further execution
+    // }
+
+
+
+   
+    // if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["action"]) && $_POST["action"] == "confirm" && isset($_POST["appointmentId"])) {
+     
+
+    //     $appointmentId = $_POST["appointmentId"];
+
+    //     // Perform the update operation
+    //     $updateQuery = "UPDATE tblappointments SET status = 'Confirmed' WHERE appointmentId = '$appointmentId'";
+    //     $result = mysqli_query($connection, $updateQuery);
+
+    //     if ($result) {
+    //         echo json_encode(array("status" => "success"));
+    //     } else {
+    //         echo json_encode(array("status" => "error", "message" => "Failed to confirm appointment."));
+    //     }
+
+    //     exit(); // Stop further execution
+    // }
+
+
+
+   
+  
+
+
+
+ 
+    
+  
+
+
+    
+
+   
 
   
 
@@ -27,8 +95,15 @@
     <link rel="stylesheet" href="/css/style.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://cdn.tailwindcss.com"></script>
+    <script
+  src="https://code.jquery.com/jquery-3.7.1.js"
+  integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+  crossorigin="anonymous"></script>
   </head>
   <body class="flex flex-col min-h-screen">
+
+
+
 
   <!-- navigation bar -->
   <nav class="p-5 flex items-center justify-between text-black shadow-md">
@@ -63,6 +138,10 @@
       
         <a href="trainer.php" class="block p-3  hover:bg-gray-200"><i class="fa-regular fa-calendar-check mr-1"></i>Appointments</a>
         <a href="settings-trainer.php" class="block p-3 "><i class="fa-solid fa-gear mr-1"></i>Settings</a>
+        <a class="more block p-3 hover:bg-gray-200 cursor-pointer" id="more"><i class="fa-solid fa-bars"></i> More</a>
+        <div id="popup" class="hidden absolute bg-gray-200 shadow-lg rounded w-60 mt-2 mr-10">
+            <a href="logout.php" class="block p-3">Logout</a>
+        </div>
     </div>
     <section class="side-main flex-1 bg-gray-100">
         <!-- Your main content goes here -->
@@ -94,14 +173,17 @@
                     echo "<td class='w-1/6 p-3 text-sm text-gray-700 whitespace-nowrap'>" . $row["timee"] . "</td>";
                     echo "<td class='w-1/6 p-3 text-sm text-gray-700 whitespace-nowrap'>" . $row["services"] . "</td>";
                     echo "<td class='w-1/6 p-3 text-sm text-gray-700 whitespace-nowrap'>";
-                    echo '<button class="btnOpenConfirm bg-black text-white pl-5 pr-5 pt-1 pb-1 rounded-full font-semibold" onclick="openPopUpBtn()">Confirm</button>';
-                   
-                    echo '<button class="bg-red-700 text-white pl-5 pr-5 pt-1 pb-1 rounded-full font-semibold" onclick="openCancelDialog(\'' . $row["userName"] . '\')">Cancel</button>';
+                    echo '<button name="btnConfirmBook" class="btnOpenConfirm bg-black text-white pl-5 pr-5 pt-1 pb-1 rounded-full font-semibold" " id="btnConfirm" value="' . $row["appointmentId"] . '" onclick="confirmBooking(' . $row["appointmentId"] . ')">Confirm</button>';
+                    echo '<button class="bg-red-700 text-white pl-5 pr-5 pt-1 pb-1 rounded-full font-semibold" onclick="deleteBooking(' . $row["appointmentId"] . ')">Decline</button>';
+
+                    
+
+                    // echo '<button class="bg-red-700 text-white pl-5 pr-5 pt-1 pb-1 rounded-full font-semibold" onclick="openCancelDialog(\'' . $row["userName"] . '\')">Decline</button>';
                     echo "</td>";
                     echo "</tr>";
                 }
             } else {
-                echo "<tr><td colspan='6'>No records found</td></tr>";
+                echo "<tr><td colspan='6' class ='p-5'>No records found</td></tr>";
             }
             ?>
         </tbody>
@@ -109,16 +191,16 @@
 </div>
 
     
-       <div class="popUp" id="popup">
-      <img src="/images/check.png" alt="" class="imgdiv" />
-      <h2>Thank You!</h2>
-      <p>
-        Ordered Successfully Processed. Visit your email for details and
-        confirmation. Thanks for supporting CSC!
-      </p>
+       <!-- <div class="popUp" id="popup">
+            <img src="/images/check.png" alt="" class="imgdiv" />
+            <h2>Thank You!</h2>
+            <p>
+              Ordered Successfully Processed. Visit your email for details and
+              confirmation. Thanks for supporting CSC!
+            </p>
 
-      <button onclick="closePopUpBtn();">Close</button>
-    </div>
+            <button onclick="closePopUpBtn();">Close</button>
+       </div> -->
 
     </section>
     </main>
@@ -141,6 +223,10 @@
     </footer>
 
 
+
+
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    
     <script src="./js/script.js"></script>
     
     <script
@@ -158,5 +244,103 @@
       integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
       crossorigin="anonymous"
     ></script>
+
+    <script>
+    const dropdown = document.getElementById("more");
+    const popup = document.getElementById("popup");
+
+    dropdown.addEventListener("click", function toggleDropDown() {
+        popup.classList.toggle("hidden");
+    });
+
+    document.addEventListener("click", function closeDropDown(event) {
+        if (!popup.contains(event.target) && event.target !== dropdown) {
+            popup.classList.add("hidden");
+        }
+    });
+
+
+    function confirmBooking(appointmentId) {
+    swal({
+        title: "Are you sure?",
+        text: "Once confirmed, this appointment will be marked as confirmed!",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+    })
+    .then((willConfirm) => {
+        if (willConfirm) {
+            // User clicked the confirm button
+            // Perform the update operation
+            $.ajax({
+                type: 'POST',
+                url: 'confirm.php', // Replace 'your_php_script.php' with the actual path to your PHP script
+                data: {appointmentId: appointmentId }, 
+                success: function(response) {
+                    swal("Success!", "Appointment confirmed successfully!", "success");
+                    // Reload the page
+
+                    setTimeout(function() {
+                      location.reload();
+                    }, 3000); 
+                  
+                },
+                error: function() {
+                    swal("Error!", "Failed to confirm appointment!", "error");
+                }
+            });
+        } else {
+            // User clicked the cancel button
+            swal("Your appointment is safe!");
+        }
+    });
+}
+
+
+
+
+    function deleteBooking(appointmentId) {
+        swal({
+            title: "Are you sure?",
+            text: "Once deleted, this appointment will be permanently removed!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+        .then((willDelete) => {
+            if (willDelete) {
+                // User clicked the delete button
+                // Perform the delete operation
+                $.ajax({
+                    type: 'POST',
+                    url: 'decline.php',
+                    data: { appointmentId: appointmentId },
+                    success: function(response) {
+                        swal("Poof! Appointment deleted!", {
+                            icon: "success",
+                        });
+                        // Optionally, reload the page or update the table
+                    setTimeout(function() {
+                      location.reload();
+                    }, 3000); 
+                    },
+                    error: function() {
+                        swal("Error!", "Failed to delete appointment!", "error");
+                    }
+                });
+            } else {
+                // User clicked the cancel button
+                swal("Your appointment is safe!");
+            }
+        });
+    }
+
+
+
+   
+</script>
+
+
+
   </body>
 </html>

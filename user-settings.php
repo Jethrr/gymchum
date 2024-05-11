@@ -102,18 +102,19 @@ if(isset($_POST['deactivate'])){
 
     <!-- main section tab -->
     <main class="flex-1 flex shadow-lg bg-white rounded">
-    <div class="sidebar shadow p-3  bg-white pt-5 w-72">
-      
-      <a href="trainer.php" class="block p-3  hover:bg-gray-200"><i class="fa-regular fa-calendar-check mr-1"></i>Appointments</a>
-      <a href="settings-trainer.php" class="block p-3 "><i class="fa-solid fa-gear mr-1"></i>Settings</a>
-      <a class="more block p-3 hover:bg-gray-200 cursor-pointer" id="more"><i class="fa-solid fa-bars"></i> More</a>
-      <div id="popup" class="hidden absolute bg-gray-200 shadow-lg rounded w-60 mt-2 mr-10">
-          <a href="logout.php" class="block p-3">Logout</a>
-      </div>
-  </div>
+    <div class="sidebar shadow p-3 bg-white pt-5 w-72">
+        <a href="mainpage.php" class="block p-3 hover:bg-gray-200"><i class="fa-regular fa-calendar-days mr-1"></i>Bookings</a>
+        <a href="appointment.php" class="block p-3 hover:bg-gray-200"><i class="fa-regular fa-calendar-check mr-1"></i>Book an appointment</a>
+        <a href="membership.php" class="block p-3"><i class="fa-solid fa-user mr-1"></i>Membership</a>
+        <a class="more block p-3 hover:bg-gray-200 cursor-pointer" id="more"><i class="fa-solid fa-bars"></i> More</a>
+        <div id="popup" class="hidden absolute bg-gray-200 shadow-lg rounded w-60 mt-2 mr-10">
+            <a href="" class="block p-3 hover:bg-gray-200">Settings</a>
+            <a href="logout.php" class="block p-3">Logout</a>
+        </div>
+    </div>
     <section class="side-main flex-1 bg-gray-100 p-10">
 
-    <p><a href="trainer.php"><span><<</span> Go back</a></p>
+    <p><a href="mainpage.php"><span><<</span> Go back</a></p>
         <!-- Your main content goes here -->
         <div class="header-section">
         <h1 class="text-3xl  font-bold mt-10">Account Information</h1>
@@ -121,7 +122,9 @@ if(isset($_POST['deactivate'])){
       
         </div>
        
-       
+        <!-- <div class="mt-5">
+           <input id="searchInput" type="text" placeholder="Search" class="border p-2 rounded-lg w-2/5">
+        </div> -->
        
         
 
@@ -213,7 +216,26 @@ if(isset($_POST['deactivate'])){
 
 
 
-   
+        
+        function confirmUpdate(event){
+                    event.preventDefault(); 
+            swal({
+                title: "Confirm",
+                text: "Are you sure all information are correct?",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+              })
+              .then((willDelete) => {
+                if (willDelete) {
+                    swal("Bookings Details Updated Successfully", {
+                        icon: "success",
+                    }).then(() => {
+                        document.getElementById('booking-form').submit();
+                    });
+                 }     
+              });
+          }
 
 
 

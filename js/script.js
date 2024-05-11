@@ -6,49 +6,11 @@ logo.addEventListener("click", () => {
   window.location.href = "index.php";
 });
 
-TweenMax.staggerFrom(
-  ".form-group",
-  1,
-  {
-    delay: 0.2,
-    opacity: 0,
-    y: 20,
-    ease: Expo.easeInOut,
-  },
-  0.2
-);
-
-TweenMax.staggerFrom(
-  ".contact-info-container > *",
-  1,
-  {
-    delay: 0,
-    opacity: 0,
-    y: 20,
-    ease: Expo.easeInOut,
-  },
-  0.1
-);
-
-document.addEventListener("DOMContentLoaded", function () {
-  TweenMax.staggerFrom(
-    ".about-us-info-container > *",
-    1,
-    {
-      delay: 0,
-      opacity: 0,
-      y: 20,
-      ease: Expo.easeInOut,
-    },
-    0.1
-  );
-});
-
 function openBookingsTab(firstname) {
   window.location.href = "bookings.php?firstname=" + firstname;
 }
 
-function openCancel(coach) {
+function openCancel(coach, appointmentId) {
   window.location.href = "bookings-data.php?coach=" + coach;
 }
 
@@ -77,3 +39,46 @@ function openPopUpBtn() {
 function closePopUpBtn() {
   popUp.classList.remove("openPopUp");
 }
+
+// document.addEventListener("DOMContentLoaded", function () {
+//   const searchInput = document.getElementById("searchInput");
+//   const rows = document.querySelectorAll("#tableBody tr");
+
+//   searchInput.addEventListener("input", function () {
+//     alert("hello");
+//     const searchTerm = searchInput.value.toLowerCase();
+
+//     rows.forEach((row) => {
+//       const cells = row.querySelectorAll("td");
+//       let found = false;
+
+//       cells.forEach((cell) => {
+//         if (cell.textContent.toLowerCase().includes(searchTerm)) {
+//           found = true;
+//         }
+//       });
+
+//       if (found) {
+//         row.style.display = "";
+//       } else {
+//         row.style.display = "none";
+//       }
+//     });
+//   });
+// });
+
+function openDropDown() {
+  var dropdown = document.getElementById("#popup");
+  dropdown.classList.toggle("hidden");
+}
+
+document.addEventListener("click", function (event) {
+  var dropdown = document.getElementById("popup");
+  if (
+    !event.target.matches(".more") &&
+    !event.target.matches("#popup") &&
+    !event.target.matches("#popup *")
+  ) {
+    dropdown.classList.add("hidden");
+  }
+});
