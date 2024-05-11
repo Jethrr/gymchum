@@ -11,16 +11,29 @@
  
    
 
-    $sql1 = "SELECT a.*, u.firstname AS userName, s.emailadd AS emailAdd FROM `tblappointments` a JOIN `tbluserprofile` u ON a.userId = u.userId JOIN `tbluseraccount` s ON a.userId = s.acctId WHERE a.coach  = '$currentUserName'";
-   
-    // $sql1 = "SELECT a.*, u.firstname AS userName, s.emailadd AS emailAdd
-    // FROM `tblappointments` a 
-    // JOIN `tbluserprofile` u ON a.userId = u.userId 
-    // JOIN `tbluseraccount` s ON a.userId = s.acctId
-    // WHERE a.coach = '$currentUserName'";
+    // $sql1 = "SELECT a.*, u.firstname AS userName, s.emailadd AS emailAdd FROM `tblappointments` a JOIN `tbluserprofile` u ON a.userId = u.userId JOIN `tbluseraccount` s ON a.userId = s.acctId WHERE a.coach  = '$currentUserName' ";
+
+    // $res = mysqli_query($connection, $sql1);
+
+    $sql_pending = "SELECT a.*, u.firstname AS userName, s.emailadd AS emailAdd 
+                FROM `tblappointments` a 
+                JOIN `tbluserprofile` u ON a.userId = u.userId 
+                JOIN `tbluseraccount` s ON a.userId = s.acctId 
+                WHERE a.coach = '$currentUserName' 
+                AND a.status = 'Pending'";
+    $res_pending = mysqli_query($connection, $sql_pending);
 
 
-    $res = mysqli_query($connection, $sql1);
+    $sql_confirmed = "SELECT a.*, u.firstname AS userName, s.emailadd AS emailAdd 
+                  FROM `tblappointments` a 
+                  JOIN `tbluserprofile` u ON a.userId = u.userId 
+                  JOIN `tbluseraccount` s ON a.userId = s.acctId 
+                  WHERE a.coach = '$currentUserName' 
+                  AND a.status = 'Confirmed'";
+    $res_confirmed = mysqli_query($connection, $sql_confirmed);
+
+
+    
 
 
 
@@ -147,7 +160,7 @@
         <!-- Your main content goes here -->
      
         <div class="headings ml-20 mr-20 mt-10">
-          <h1 class="font-bold text-2xl">Booking</h1>
+          <h1 class="font-bold text-2xl">Available Booking</h1>
           <p>See bookings here</p>
         </div>
         <div class="overflow-auto rounded-lg shadow hidden md:block mt-5 bg-gray-100 m-20">
@@ -164,8 +177,8 @@
         </thead>
         <tbody class="divide-y divide-gray-100">
             <?php
-            if (mysqli_num_rows($res) > 0) {
-                while ($row = mysqli_fetch_assoc($res)) {
+            if (mysqli_num_rows($res_pending) > 0) {
+                while ($row = mysqli_fetch_assoc($res_pending)) {
                     echo "<tr>";
                     echo "<td class='w-1/6 p-3 text-sm text-gray-700 whitespace-nowrap'>" . $row["userName"] . "</td>";
                     echo "<td class='w-1/6 p-3 text-sm text-gray-700 whitespace-nowrap'>" . $row["emailAdd"] . "</td>";
@@ -176,6 +189,49 @@
                     echo '<button name="btnConfirmBook" class="btnOpenConfirm bg-black text-white pl-5 pr-5 pt-1 pb-1 rounded-full font-semibold" " id="btnConfirm" value="' . $row["appointmentId"] . '" onclick="confirmBooking(' . $row["appointmentId"] . ')">Confirm</button>';
                     echo '<button class="bg-red-700 text-white pl-5 pr-5 pt-1 pb-1 rounded-full font-semibold" onclick="deleteBooking(' . $row["appointmentId"] . ')">Decline</button>';
 
+                    
+
+                    // echo '<button class="bg-red-700 text-white pl-5 pr-5 pt-1 pb-1 rounded-full font-semibold" onclick="openCancelDialog(\'' . $row["userName"] . '\')">Decline</button>';
+                    echo "</td>";
+                    echo "</tr>";
+                }
+            } else {
+                echo "<tr><td colspan='6' class ='p-5'>No records found</td></tr>";
+            }
+            ?>
+        </tbody>
+    </table>
+</div>
+
+
+<div class="headings ml-20 mr-20 mt-10">
+          <h1 class="font-bold text-2xl">Confirmed Booking</h1>
+          <p>Your bookings here</p>
+        </div>
+
+<div class="overflow-auto rounded-lg shadow hidden md:block mt-5 bg-gray-100 m-20">
+    <table class="w-full table-fixed">
+        <thead class="bg-gray-200 border-b-2 border-gray-200">
+            <tr>
+                <th class="w-1/6 p-3 text-sm font-semibold tracking-wide text-left">Name</th>
+                <th class="w-1/6 p-3 text-sm font-semibold tracking-wide text-left">Email</th>
+                <th class="w-1/6 p-3 text-sm font-semibold tracking-wide text-left">Date</th>
+                <th class="w-1/6 p-3 text-sm font-semibold tracking-wide text-left">Time</th>
+                <th class="w-1/6 p-3 text-sm font-semibold tracking-wide text-left">Service</th>
+             
+            </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-100">
+            <?php
+            if (mysqli_num_rows($res_confirmed) > 0) {
+                while ($row = mysqli_fetch_assoc($res_confirmed )) {
+                    echo "<tr>";
+                    echo "<td class='w-1/6 p-3 text-sm text-gray-700 whitespace-nowrap'>" . $row["userName"] . "</td>";
+                    echo "<td class='w-1/6 p-3 text-sm text-gray-700 whitespace-nowrap'>" . $row["emailAdd"] . "</td>";
+                    echo "<td class='w-1/6 p-3 text-sm text-gray-700 whitespace-nowrap'>" . $row["dates"] . "</td>";
+                    echo "<td class='w-1/6 p-3 text-sm text-gray-700 whitespace-nowrap'>" . $row["timee"] . "</td>";
+                    echo "<td class='w-1/6 p-3 text-sm text-gray-700 whitespace-nowrap'>" . $row["services"] . "</td>";
+                 
                     
 
                     // echo '<button class="bg-red-700 text-white pl-5 pr-5 pt-1 pb-1 rounded-full font-semibold" onclick="openCancelDialog(\'' . $row["userName"] . '\')">Decline</button>';

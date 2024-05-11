@@ -19,7 +19,25 @@
 
     $userProfile = "SELECT * FROM `tbluseraccount`";
     $profileQuery = mysqli_query($connection, $userProfile);
+
+    $totalUser = "SELECT COUNT(*) AS totalUser FROM `tbluserprofile` WHERE usertype = 'User'"; 
+    $totalUserQuery = mysqli_query($connection, $totalUser);
+
+
+
     
+    $totalTrainer = "SELECT COUNT(*) AS totalTrainer FROM `tbluserprofile` WHERE usertype = 'Trainer'"; 
+    $totalTrainerQuery = mysqli_query($connection, $totalTrainer);
+
+    $totalConfirmed = "SELECT COUNT(*) AS totalConfirmed FROM `tblappointments` WHERE status = 'Confirmed'"; 
+    $totalConfirmedQuery = mysqli_query($connection, $totalConfirmed);
+
+    $totalBookings = "SELECT COUNT(*) AS bookings_count FROM `tblappointments`"; 
+    $totalBookingsQuery = mysqli_query($connection, $totalBookings);
+    
+
+    $userActive = "SELECT COUNT(*) AS totalActive FROM `tbluserprofile` WHERE status = 'Active'";
+    $userActiveQuery = mysqli_query($connection, $userActive);
 ?>
 
 <!DOCTYPE html>
@@ -73,11 +91,14 @@
         <a href="admin.php" class="block p-3 hover:bg-gray-200"><i class="fa-regular fa-calendar-days mr-1"></i>Records</a>
     
        
-        <a class="more block p-3 hover:bg-gray-200"><i class="fa-solid fa-bars"></i> More</a>
-        <div id="popup" class="hidden absolute bg-gray-200 shadow-lg rounded w-40 mt-2 mr-10">
-            <a href="" class="block p-3 hover:bg-gray-200">Settings</a>
+        <a class="more block p-3 hover:bg-gray-200 cursor-pointer" id="more"><i class="fa-solid fa-bars"></i> More</a>
+        <div id="popup" class="hidden absolute bg-gray-200 shadow-lg rounded w-60 mt-2 mr-10">
+          
             <a href="logout.php" class="block p-3">Logout</a>
         </div>
+
+
+        
     </div>
     <section class="side-main flex-1 bg-gray-100">
         <!-- Your main content goes here -->
@@ -112,7 +133,7 @@
                           echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . $row["timee"] . "</td>";
                           echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . $row["services"] . "</td>";
                           
-                          echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . 'Pending' . "</td>";
+                          echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . $row["status"] . "</td>";
                           
                           echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . '<button class="bg-black text-white pl-5 pr-5 pt-1 pb-1 rounded-full font-semibold" ">Edit</button>' . "</td>";
 
@@ -130,8 +151,8 @@
 
 
        <div class="headings ml-20 mr-20 mt-10">
-          <h1 class="font-bold text-2xl">Users</h1>
-          <p>All Users</p>
+          <h1 class="font-bold text-2xl">Accounts</h1>
+          <p>All Accounts</p>
         </div>
         <div class="overflow-auto rounded-lg shadow hidden md:block mt-5 bg-gray-100 m-20">
             <table class="w-full">
@@ -141,6 +162,8 @@
                 <th class="w-20 p-3 text-sm font-semibold tracking-wide text-left">Firsname</th>
                 <th class="w-24 p-3 text-sm font-semibold tracking-wide text-left">Lastname</th>
                 <th class="w-24 p-3 text-sm font-semibold tracking-wide text-left">Gender</th>
+                <th class="w-24 p-3 text-sm font-semibold tracking-wide text-left">Usertype</th>
+                <th class="w-24 p-3 text-sm font-semibold tracking-wide text-left">Status</th>
               </tr>
               </thead>
               <tbody class="divide-y divide-gray-100">
@@ -154,8 +177,8 @@
                           echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . $row["firstname"] . "</td>";
                           echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . $row["lastname"] . "</td>";
                           echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . $row["gender"] . "</td>";
-                        
-                          
+                          echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . $row["usertype"] . "</td>";
+                          echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . $row["status"] . "</td>";
                         
                          
 
@@ -173,8 +196,8 @@
 
        
        <div class="headings ml-20 mr-20 mt-10">
-          <h1 class="font-bold text-2xl">User Profile</h1>
-          <p>All User Profile</p>
+          <h1 class="font-bold text-2xl">Profile Information</h1>
+          <p>Profile Details and Information</p>
         </div>
         <div class="overflow-auto rounded-lg shadow hidden md:block mt-5 bg-gray-100 m-20">
             <table class="w-full">
@@ -197,6 +220,188 @@
                          
                           echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . $row["username"] . "</td>";
                           echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . $row["emailadd"] . "</td>";
+                        
+                          
+                         
+                          echo "</tr>";
+                          
+                        }
+                    } else {
+                        echo "<tr><td colspan='4'>No records found</td></tr>";
+                    }
+                    ?>
+              </tbody>
+            </table>
+       </div>
+
+       <div class="headings ml-20 mr-20 mt-10">
+          <h1 class="font-bold text-2xl">Statistics</h1>
+         
+        </div>
+        <div class="overflow-auto rounded-lg shadow hidden md:block mt-5 bg-gray-100 m-20">
+            <table class="w-full">
+              <thead class="bg-black border-b-2 border-gray-200 text-white">
+              <tr>
+             
+                <th class="w-20 p-3 text-sm font-semibold tracking-wide text-left w-1/2">Total Number of Users</th>
+            
+                
+               
+              </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-100">
+              <?php
+                    
+                    if (mysqli_num_rows($totalUserQuery) > 0) {
+                        
+                        while ($row = mysqli_fetch_assoc($totalUserQuery)) {
+                          echo "<tr>";
+                         
+                          echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap font-bold'>" . $row["totalUser"] . "</td>";
+                          
+                        
+                          
+                         
+                          echo "</tr>";
+                          
+                        }
+                    } else {
+                        echo "<tr><td colspan='4'>No records found</td></tr>";
+                    }
+                    ?>
+              </tbody>
+            </table>
+       </div>
+
+
+       <div class="overflow-auto rounded-lg shadow hidden md:block mt-5 bg-gray-100 m-20">
+            <table class="w-full">
+              <thead class="bg-black border-b-2 border-gray-200 text-white">
+              <tr>
+             
+                <th class="w-20 p-3 text-sm font-semibold tracking-wide text-left w-1/2">Total Number of Trainers</th>
+            
+                
+               
+              </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-100">
+              <?php
+                    
+                    if (mysqli_num_rows($totalTrainerQuery) > 0) {
+                        
+                        while ($row = mysqli_fetch_assoc($totalTrainerQuery)) {
+                          echo "<tr>";
+                         
+                          echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap font-bold'>" . $row["totalTrainer"] . "</td>";
+                          
+                        
+                          
+                         
+                          echo "</tr>";
+                          
+                        }
+                    } else {
+                        echo "<tr><td colspan='4'>No records found</td></tr>";
+                    }
+                    ?>
+              </tbody>
+            </table>
+       </div>
+
+
+        <div class="overflow-auto rounded-lg shadow hidden md:block mt-5 bg-gray-100 m-20">
+            <table class="w-full">
+              <thead class="bg-black border-b-2 border-gray-200 text-white">
+              <tr>
+             
+                <th class="w-20 p-3 text-sm font-semibold tracking-wide text-left w-1/2">Total Number of Bookings</th>
+            
+                
+               
+              </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-100">
+              <?php
+                    
+                    if (mysqli_num_rows($totalBookingsQuery) > 0) {
+                        
+                        while ($row = mysqli_fetch_assoc($totalBookingsQuery)) {
+                          echo "<tr>";
+                         
+                          echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap font-bold'>" . $row["bookings_count"] . "</td>";
+                          
+                        
+                          
+                         
+                          echo "</tr>";
+                          
+                        }
+                    } else {
+                        echo "<tr><td colspan='4'>No records found</td></tr>";
+                    }
+                    ?>
+              </tbody>
+            </table>
+       </div>
+
+
+       <div class="overflow-auto rounded-lg shadow hidden md:block mt-5 bg-gray-100 m-20">
+            <table class="w-full">
+              <thead class="bg-black border-b-2 border-gray-200 text-white">
+              <tr>
+             
+                <th class="w-20 p-3 text-sm font-semibold tracking-wide text-left w-1/2">Number of Confirmed  Bookings</th>
+            
+                
+               
+              </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-100">
+              <?php
+                    
+                    if (mysqli_num_rows($totalConfirmedQuery) > 0) {
+                        
+                        while ($row = mysqli_fetch_assoc($totalConfirmedQuery)) {
+                          echo "<tr>";
+                         
+                          echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap font-bold'>" . $row["totalConfirmed"] . "</td>";
+                          
+                        
+                          
+                         
+                          echo "</tr>";
+                          
+                        }
+                    } else {
+                        echo "<tr><td colspan='4'>No records found</td></tr>";
+                    }
+                    ?>
+              </tbody>
+            </table>
+       </div>
+
+       <div class="overflow-auto rounded-lg shadow hidden md:block mt-5 bg-gray-100 m-20">
+            <table class="w-full">
+              <thead class="bg-black border-b-2 border-gray-200 text-white">
+              <tr>
+             
+                <th class="w-20 p-3 text-sm font-semibold tracking-wide text-left w-1/2">Active Accounts</th>
+            
+                
+               
+              </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-100">
+              <?php
+                    
+                    if (mysqli_num_rows($userActiveQuery) > 0) {
+                        
+                        while ($row = mysqli_fetch_assoc($userActiveQuery)) {
+                          echo "<tr>";
+                         
+                          echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap font-bold'>" . $row["totalActive"] . "</td>";
+                          
                         
                           
                          
@@ -254,5 +459,23 @@
       integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
       crossorigin="anonymous"
     ></script>
+
+
+    <script>
+       const dropdown = document.getElementById("more");
+       const popup = document.getElementById("popup");
+
+      dropdown.addEventListener("click", function toggleDropDown() {
+          popup.classList.toggle("hidden");
+      });
+
+
+        document.addEventListener("click", function closeDropDown(event) {
+            if (!popup.contains(event.target) && event.target !== dropdown) {
+                popup.classList.add("hidden");
+            }
+        });
+
+    </script>
   </body>
 </html>

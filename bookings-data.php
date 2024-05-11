@@ -234,26 +234,7 @@
                   popup.classList.add("hidden");
               }
           });
-    //       function confirmUpdate(event){
-    //     event.preventDefault(); 
-    //     swal({
-    //         title: "Confirm",
-    //         text: "Are you sure all the details are correct?",
-    //         icon: "warning",
-    //         buttons: true,
-    //         dangerMode: true,
-    //     }).then((willDelete) => {
-    //         if (willDelete) {
-    //             swal("Processing...", {
-    //                 icon: "info",
-    //                 buttons: false,
-    //             });
-    //             setTimeout(() => {
-    //                 document.getElementById('booking-form').submit();
-    //             }, 1000);
-    //         }
-    //     });
-    // }
+    
     
 
       </script>
@@ -263,6 +244,4 @@
   </html>
 
 
-  <?php
-    include 'phpscripts/scripts.php';
-  ?>
+  
