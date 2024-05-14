@@ -14,33 +14,33 @@ $userQuery = mysqli_query($connection,$user);
 
 
 
-if(isset($_POST['update'])){
-    $fname = mysqli_real_escape_string($connection, $_POST['firstname']);
-    $lname = mysqli_real_escape_string($connection, $_POST['lastname']);
-    $gender = mysqli_real_escape_string($connection, $_POST['gender']);
+// if(isset($_POST['update'])){
+//     $fname = mysqli_real_escape_string($connection, $_POST['firstname']);
+//     $lname = mysqli_real_escape_string($connection, $_POST['lastname']);
+//     $gender = mysqli_real_escape_string($connection, $_POST['gender']);
 
 
-    $updateUser = "UPDATE `tbluserprofile` SET firstname = '$fname', lastname = '$lname', gender = '$gender' WHERE userId = '$currentUser'";
-    $updateQuery = mysqli_query($connection,$updateUser);
+//     $updateUser = "UPDATE `tbluserprofile` SET firstname = '$fname', lastname = '$lname', gender = '$gender' WHERE userId = '$currentUser'";
+//     $updateQuery = mysqli_query($connection,$updateUser);
     
     
 
-    $registerMessage = "Updated successfully.";
-}
+//     $registerMessage = "Updated successfully.";
+// }
 
 
-if(isset($_POST['deactivate'])){
+// if(isset($_POST['deactivate'])){
   
 
 
-    $deactUser = "UPDATE `tbluserprofile` SET status = 'Inactive' WHERE userId = '$currentUser'";
-    $deactQuery = mysqli_query($connection,$deactUser);
+//     $deactUser = "UPDATE `tbluserprofile` SET status = 'Inactive' WHERE userId = '$currentUser'";
+//     $deactQuery = mysqli_query($connection,$deactUser);
     
     
 
-    $registerMessage = "Your account is deactivated. You are redirected back to the login page";
-    echo '<script>setTimeout(function(){window.location.href="logout.php";}, 5000);</script>';
-}
+//     $registerMessage = "Your account is deactivated. You are redirected back to the login page";
+//     echo '<script>setTimeout(function(){window.location.href="logout.php";}, 5000);</script>';
+// }
 
 
 
@@ -59,7 +59,11 @@ if(isset($_POST['deactivate'])){
    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://cdn.tailwindcss.com"></script>
-   
+    <script
+  src="https://code.jquery.com/jquery-3.7.1.js"
+  integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+  crossorigin="anonymous"></script>
+
   </head>
   <body class="flex flex-col min-h-screen">
 
@@ -91,7 +95,7 @@ if(isset($_POST['deactivate'])){
           <?php
               if (mysqli_num_rows($query) > 0) {
                   $row = mysqli_fetch_assoc($query);
-                  echo '<h1 class="font-bold text-xl bg-green-200 pl-3 pr-3 rounded-full">' . 'User'. '</h1>';
+                  echo '<h1 class="font-bold text-xl bg-green-200 pl-3 pr-3 rounded-full">' . 'Trainer'. '</h1>';
               }
         ?>
         <img src="images/profile.png" class="user-profile " id="userProf">
@@ -128,27 +132,24 @@ if(isset($_POST['deactivate'])){
         <div class="information-col h-full border-black mt-5 border-solid border-black">
       
         <?php 
-                
-                if ($userQuery->num_rows > 0) {
-                    
-                    while($row = $userQuery->fetch_assoc()) {
-                        echo "<form method='POST' id='booking-form'>";
-                        echo "<p class = 'text-xl mb-1 font-semibold'>Firstname</p>";
-                        echo "<input class = 'w-full p-2 mb-5 rounded-xl'  type='text' name='firstname' value='".$row["firstname"]."'><br>";
-                        echo "<p class = 'text-xl mb-1 font-semibold'>Lastname</p>";
-                        echo "<input class = 'w-full p-2 mb-5 rounded-xl' type='text' name='lastname' value='".$row["lastname"]."'><br>";
-                        echo "<p class = 'text-xl mb-1 font-semibold'>Gender</p>";
-                        echo "<input class = 'w-full p-2 mb-5 rounded-xl' type='text' name='gender' value='".$row["gender"]."'><br><br>";
-                        echo "<input class = 'float-end pt-3 pb-3 pr-10 pl-10 cursor-pointer bg-black text-white mr-5'  type='submit' name='update' value='Save' onclick='confirmUpdate(event);'>";
-                        echo "<input class = 'float-end pt-3 pb-3 pr-5 pl-5 cursor-pointer bg-red-600 text-white mr-5' type='submit' name='deactivate' value='Deactivate'>";
-                        echo "</form>";
-                    }
-                } else {
-                    echo "0 results";
+            if ($userQuery->num_rows > 0) {
+                while($row = $userQuery->fetch_assoc()) {
+                    echo "<form method='POST' id='booking-form'>";
+                    echo "<p class='text-xl mb-1 font-semibold'>Firstname</p>";
+                    echo "<input class='w-full p-2 mb-5 rounded-xl' type='text' name='firstname' value='".$row["firstname"]."'><br>";
+                    echo "<p class='text-xl mb-1 font-semibold'>Lastname</p>";
+                    echo "<input class='w-full p-2 mb-5 rounded-xl' type='text' name='lastname' value='".$row["lastname"]."'><br>";
+                    echo "<p class='text-xl mb-1 font-semibold'>Gender</p>";
+                    echo "<input class='w-full p-2 mb-5 rounded-xl' type='text' name='gender' value='".$row["gender"]."'><br><br>";
+                    echo "<input class='float-end pt-3 pb-3 pr-10 pl-10 cursor-pointer bg-black text-white mr-5' data-current-user='".$_SESSION['user']."' type='button' name='update' value='Save' onclick='confirmUpdate(event);'>";
+                    echo "<button class='float-end pt-3 pb-3 pr-5 pl-5 cursor-pointer bg-red-600 text-white mr-5' data-current-user='".$_SESSION['user']."' type='button' name='deactivate' value='Deactivate'>Deactivate</button>";
+                    echo "</form>";
                 }
+            } else {
+                echo "0 results";
+            }
+          ?>
 
-        
-        ?>
 
         </div>
   
@@ -174,6 +175,9 @@ if(isset($_POST['deactivate'])){
       </div>
     </footer>
 
+
+
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="/js/script.js"></script>
    
 
@@ -210,6 +214,77 @@ if(isset($_POST['deactivate'])){
                 popup.classList.add("hidden");
             }
         });
+
+
+        $(document).ready(function() {
+    $('button[name="deactivate"]').click(function() {
+        var currUser = $(this).data('current-user'); // Use data-current-user
+        swal({
+            title: "Confirmation",
+            text: "Are you sure you want to deactivate your account?",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+        .then((willDelete) => {
+            if (willDelete) {
+                $.ajax({
+                    type: 'POST',
+                    url: 'userDeactivate.php',
+                    data: { deactivate: true, userId: currUser }, // Send userId as currentUser
+                    success: function(response) {
+                        swal("Account Successfully Deactivated!", {
+                            icon: "success",
+                        });
+                        setTimeout(function() {
+                            window.location.href = 'login.php';
+                        }, 2000);
+                    },
+                    error: function() {
+                        swal("Error!", "Failed to deactivate account!", "error");
+                    }
+                });
+            }
+        });
+    });
+});
+
+
+$('input[name="update"]').click(function() {
+        var currUser = $(this).data('current-user');
+        var firstname = $('input[name="firstname"]').val();
+        var lastname = $('input[name="lastname"]').val();
+        var gender = $('input[name="gender"]').val();
+        
+        swal({
+            title: "Confirmation",
+            text: "Are you sure you want to save the changes?",
+            icon: "warning",
+            buttons: true,
+            dangerMode: false,
+        })
+        .then((willUpdate) => {
+            if (willUpdate) {
+                $.ajax({
+                    type: 'POST',
+                    url: 'userUpdate.php',
+                    data: { update: true, userId: currUser, firstname: firstname, lastname: lastname, gender: gender },
+                    success: function(response) {
+                        swal("Changes Saved Successfully!", {
+                            icon: "success",
+                        });
+                        setTimeout(function() {
+                            location.reload();
+                        }, 3000);
+                    },
+                    error: function() {
+                        swal("Error!", "Failed to save changes!", "error");
+                    }
+                });
+            }
+        });
+    });
+
 
 
 

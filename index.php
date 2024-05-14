@@ -27,9 +27,9 @@
     </nav>
 
     <section class="main-section flex items-center justify-center">
-      <div class="bigtext text-center my-9">
-        <h1 class="font-bold text-7xl text-white bg-clip-text">WELCOME TO GYMCHUM</h1>
-      </div>
+    <div class="bigtext text-center my-9 relative">
+            <span class="absolute inset-0 bg-black bg-opacity-25 backdrop-blur-sm rounded-lg"></span>
+            <h1 class="relative font-bold text-7xl text-white px-4 py-2">WELCOME TO GYMCHUM</h1>
 
      
     </section>

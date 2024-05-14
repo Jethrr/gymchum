@@ -106,6 +106,14 @@
         <div class="headings ml-20 mr-20 mt-10">
           <h1 class="font-bold text-2xl">Booking</h1>
           <p>All bookings</p>
+          <div class="filter-options mt-5">
+            <select id="statusFilter" class="bg-gray-200 p-2 rounded" onchange="filterTable()">
+              <option value="All">All</option>
+              <option value="Confirmed">Confirmed</option>
+              <option value="Decline">Decline</option>
+              <option value="Cancelled">Cancelled</option>
+            </select>
+         </div>
         </div>
         <div class="overflow-auto rounded-lg shadow hidden md:block mt-5 bg-gray-100 m-20">
             <table class="w-full">
@@ -133,7 +141,16 @@
                           echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . $row["timee"] . "</td>";
                           echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . $row["services"] . "</td>";
                           
-                          echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . $row["status"] . "</td>";
+                          $statusClass = '';
+                          if ($row["status"] == 'Confirmed') {
+                              $statusClass = 'text-green-600 font-bold'; 
+                          } else if ($row["status"] == 'Decline') {
+                              $statusClass = 'text-red-600 font-bold'; 
+                          } else {
+                            $statusClass = 'text-black font-bold'; 
+                          }
+                  
+                          echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap " . $statusClass . "'>" . $row["status"] . "</td>";
                           
                           echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . '<button class="bg-black text-white pl-5 pr-5 pt-1 pb-1 rounded-full font-semibold" ">Edit</button>' . "</td>";
 
@@ -153,9 +170,20 @@
        <div class="headings ml-20 mr-20 mt-10">
           <h1 class="font-bold text-2xl">Accounts</h1>
           <p>All Accounts</p>
+
+          
         </div>
+
+
+
+
+        <div class="search-container ml-20 mr-20 mt-5">
+            <input type="text" id="searchInput" onkeyup="searchTable()" placeholder="Search" class="p-2 border rounded w-full">
+        </div>
+
+       
         <div class="overflow-auto rounded-lg shadow hidden md:block mt-5 bg-gray-100 m-20">
-            <table class="w-full">
+            <table class="w-full" id="userTable">
               <thead class="bg-gray-200 border-b-2 border-gray-200">
               <tr>
              
@@ -178,8 +206,16 @@
                           echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . $row["lastname"] . "</td>";
                           echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . $row["gender"] . "</td>";
                           echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . $row["usertype"] . "</td>";
-                          echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . $row["status"] . "</td>";
-                        
+                          $statusClass = '';
+                          if ($row["status"] == 'Active') {
+                              $statusClass = 'text-green-600 font-bold'; 
+                          } else if ($row["status"] == 'Inactive') {
+                              $statusClass = 'text-red-600 font-bold'; 
+                          } else {
+                            $statusClass = 'text-black font-bold'; 
+                          }
+                          echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap " . $statusClass . "'>" . $row["status"] . "</td>";
+                          
                          
 
                           echo "</tr>";
@@ -199,8 +235,13 @@
           <h1 class="font-bold text-2xl">Profile Information</h1>
           <p>Profile Details and Information</p>
         </div>
+
+        <div class="searchInfoContainer ml-20 mr-20 mt-5">
+            <input type="text" id="search-info" onkeyup="searchInfo()" placeholder="Search" class="p-2 border rounded w-full">
+        </div>
+
         <div class="overflow-auto rounded-lg shadow hidden md:block mt-5 bg-gray-100 m-20">
-            <table class="w-full">
+        <table class="w-full infoTable">
               <thead class="bg-gray-200 border-b-2 border-gray-200">
               <tr>
              
@@ -418,6 +459,26 @@
     
 
 
+       <div class="grid grid-cols-2 gap-4 p-10">
+            <div class="border p-4">
+              <h1 class="font-bold">Bookings</h1>
+                <img src="/images/bookings.png" alt="Image 1" class="w-full h-full object-cover">
+            </div>
+            <div class="border p-4">
+            <h1 class="font-bold">Gender</h1>
+                <img src="/images/gender.png" alt="Image 2" class="w-full h-full object-cover">
+            </div>
+            <div class="border p-4">
+            <h1 class="font-bold">User Status</h1>
+                <img src="/images/userstatus.png" alt="Image 3" class="w-full h-full object-cover">
+            </div>
+            <div class="border p-4">
+            <h1 class="font-bold">User Types</h1>
+                <img src="/images/usertypes.png" alt="Image 4" class="w-full h-full object-cover">
+            </div>
+        </div>
+
+
     </section>
     </main>
 
@@ -475,6 +536,69 @@
                 popup.classList.add("hidden");
             }
         });
+
+
+        function filterTable() {
+            const filterValue = document.getElementById('statusFilter').value;
+            const table = document.querySelector('table tbody');
+            const rows = Array.from(table.rows);
+
+            rows.forEach(row => {
+              const status = row.cells[4].textContent.trim();
+              if (filterValue === 'All' || status === filterValue) {
+                row.style.display = '';
+              } else {
+                row.style.display = 'none';
+              }
+            });
+       }
+
+
+
+       function searchTable() {
+    
+              var input, filter, table, tr, td, i, txtValue;
+              input = document.getElementById("searchInput");
+              filter = input.value.toUpperCase();
+              table = document.getElementById("userTable");
+              tr = table.getElementsByTagName("tr");
+
+              
+              for (i = 0; i < tr.length; i++) {
+                  td = tr[i].getElementsByTagName("td")[0]; // Change index to match the column you want to search
+                  if (td) {
+                      txtValue = td.textContent || td.innerText;
+                      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                          tr[i].style.display = "";
+                      } else {
+                          tr[i].style.display = "none";
+                      }
+                  }
+              }
+        }
+
+        function searchInfo() {
+              var input, filter, table, tr, td, i, txtValue;
+              input = document.getElementById("search-info");
+              filter = input.value.toUpperCase();
+              table = document.getElementsByClassName("infoTable")[0]; 
+              tr = table.getElementsByTagName("tr");
+
+              for (i = 1; i < tr.length; i++) { // Start from 1 to skip the header row
+                  td = tr[i].getElementsByTagName("td")[0]; // Change index to match the column you want to search
+                  if (td) {
+                      txtValue = td.textContent || td.innerText;
+                      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                          tr[i].style.display = "";
+                      } else {
+                          tr[i].style.display = "none";
+                      }
+                  }
+              }
+        }
+
+
+   
 
     </script>
   </body>

@@ -8,7 +8,7 @@
     $currentuser = $_SESSION['user']; 
     
 
-    $dataQuery = "SELECT * FROM tblappointments WHERE userId = $currentuser";
+    $dataQuery = "SELECT * FROM tblappointments WHERE userId = $currentuser ORDER BY `tblappointments`.`status` ASC";
   
     $res = mysqli_query($connection, $dataQuery);
     
@@ -65,7 +65,7 @@
     <div class="sidebar shadow p-3 bg-white pt-5 w-72">
         <a href="mainpage.php" class="block p-3 hover:bg-gray-200"><i class="fa-regular fa-calendar-days mr-1"></i>Bookings</a>
         <a href="appointment.php" class="block p-3 hover:bg-gray-200"><i class="fa-regular fa-calendar-check mr-1"></i>Book an appointment</a>
-        <a href="membership.php" class="block p-3"><i class="fa-solid fa-user mr-1"></i>Membership</a>
+
         <a class="more block p-3 hover:bg-gray-200 cursor-pointer" id="more"><i class="fa-solid fa-bars"></i> More</a>
         <div id="popup" class="hidden absolute bg-gray-200 shadow-lg rounded w-60 mt-2 mr-10">
             <a href="user-settings.php" class="block p-3 hover:bg-gray-200">Settings</a>
@@ -105,7 +105,17 @@
                           echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . $row["timee"] . "</td>";
                           echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . $row["services"] . "</td>";
                           
-                          echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" .  $row["status"] . "</td>";
+                          $statusClass = '';
+                          if ($row["status"] == 'Confirmed') {
+                              $statusClass = 'text-green-600 font-bold'; 
+                          } else if ($row["status"] == 'Decline') {
+                              $statusClass = 'text-red-600 font-bold'; 
+                          } else {
+                            $statusClass = 'text-black font-bold'; 
+                          }
+                  
+                          echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap " . $statusClass . "'>" . $row["status"] . "</td>";
+                  
                           
                           echo "<td class='p-3 text-sm text-gray-700 whitespace-nowrap'>" . '<button class="bg-black text-white pl-5 pr-5 pt-1 pb-1 rounded-full font-semibold" onclick="openCancel(\'' . $row["appointmentId"] . '\')">Edit</button>' . "</td>";
 

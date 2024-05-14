@@ -33,67 +33,7 @@
     $res_confirmed = mysqli_query($connection, $sql_confirmed);
 
 
-    
 
-
-
-
-    // if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["appointmentId"])) {
-     
-
-    //     $appointmentId = $_POST["appointmentId"];
-
-    //     // Perform the deletion operation
-    //     $deleteQuery = "UPDATE tblappointments SET status = 'Decline' WHERE appointmentId = '$appointmentId'";
-    //     $result = mysqli_query($connection, $deleteQuery);
-
-    //     if ($result) {
-    //         echo json_encode(array("status" => "success"));
-    //     } else {
-    //         echo json_encode(array("status" => "error", "message" => "Failed to delete appointment."));
-    //     }
-
-    //     exit(); // Stop further execution
-    // }
-
-
-
-   
-    // if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["action"]) && $_POST["action"] == "confirm" && isset($_POST["appointmentId"])) {
-     
-
-    //     $appointmentId = $_POST["appointmentId"];
-
-    //     // Perform the update operation
-    //     $updateQuery = "UPDATE tblappointments SET status = 'Confirmed' WHERE appointmentId = '$appointmentId'";
-    //     $result = mysqli_query($connection, $updateQuery);
-
-    //     if ($result) {
-    //         echo json_encode(array("status" => "success"));
-    //     } else {
-    //         echo json_encode(array("status" => "error", "message" => "Failed to confirm appointment."));
-    //     }
-
-    //     exit(); // Stop further execution
-    // }
-
-
-
-   
-  
-
-
-
- 
-    
-  
-
-
-    
-
-   
-
-  
 
 ?>
 
@@ -247,16 +187,7 @@
 </div>
 
     
-       <!-- <div class="popUp" id="popup">
-            <img src="/images/check.png" alt="" class="imgdiv" />
-            <h2>Thank You!</h2>
-            <p>
-              Ordered Successfully Processed. Visit your email for details and
-              confirmation. Thanks for supporting CSC!
-            </p>
-
-            <button onclick="closePopUpBtn();">Close</button>
-       </div> -->
+      
 
     </section>
     </main>
@@ -346,8 +277,7 @@
                 }
             });
         } else {
-            // User clicked the cancel button
-            swal("Your appointment is safe!");
+          
         }
     });
 }
@@ -358,7 +288,7 @@
     function deleteBooking(appointmentId) {
         swal({
             title: "Are you sure?",
-            text: "Once deleted, this appointment will be permanently removed!",
+            text: "Once decline, this appointment will be permanently decline!",
             icon: "warning",
             buttons: true,
             dangerMode: true,
@@ -372,7 +302,7 @@
                     url: 'decline.php',
                     data: { appointmentId: appointmentId },
                     success: function(response) {
-                        swal("Poof! Appointment deleted!", {
+                        swal("Appointment Successfully Decline!", {
                             icon: "success",
                         });
                         // Optionally, reload the page or update the table
@@ -385,8 +315,7 @@
                     }
                 });
             } else {
-                // User clicked the cancel button
-                swal("Your appointment is safe!");
+             
             }
         });
     }
