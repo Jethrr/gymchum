@@ -476,6 +476,10 @@
             <h1 class="font-bold">User Types</h1>
                 <img src="/images/usertypes.png" alt="Image 4" class="w-full h-full object-cover">
             </div>
+            <div class="border p-4">
+            <h1 class="font-bold">Services</h1>
+                <img src="/images/bservices.png" alt="Image 4" class="w-full h-full object-cover">
+            </div>
         </div>
 
 

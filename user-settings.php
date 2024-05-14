@@ -268,7 +268,7 @@ if(isset($_POST['update'])){
                             icon: "success",
                         });
                         setTimeout(function() {
-                            window.location.href = 'mainpage.php';
+                            window.location.href = 'login.php';
                         }, 2000);
                     },
                     error: function() {
